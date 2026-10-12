@@ -15,16 +15,20 @@
 
 目前收录 4 个专题。
 
+**只想要一个文件**：下载 [all-in-one.html](all-in-one.html)。四个专题合在一起，顶部标签切换，双击即可打开。
+
 ## 仓库结构
 
 ```text
 mass-spectrometry/
 ├── index.html            # 全部专题的分类入口
+├── all-in-one.html       # 合订本：四个专题合成的单文件（由 tools/merge.py 生成）
 ├── assets/
 │   ├── ink.css           # 水墨样式源文件（纸色、朱印、宽屏栅格，跟随系统深浅色）
 │   └── spectrum.js       # 棒图、选峰题跋、丢失弧线、弱峰放大、碳数小算盘；无依赖
 ├── tools/
-│   └── inline.py         # 把 assets/ 内嵌进各页
+│   ├── inline.py         # 把 assets/ 内嵌进各页，并重建合订本
+│   └── merge.py          # 由四个专题页生成 all-in-one.html
 └── topics/
     └── <slug>/
         ├── index.html    # 专题页：单文件，样式和脚本已内嵌
@@ -33,7 +37,7 @@ mass-spectrometry/
 
 每个专题页都是可以独立打开的单文件网页：`assets/` 里的样式和脚本已经内嵌进各页，单独下载一个 `index.html` 双击即可，不需要服务器。字体从 Google Fonts 加载，断网时退回系统字体。
 
-`assets/` 是样式和脚本的源文件。改动之后运行 `python3 tools/inline.py`，把新内容重新嵌进所有页面。
+`assets/` 是样式和脚本的源文件。改动之后运行 `python3 tools/inline.py`，把新内容重新嵌进所有页面，并重建合订本。专题页是内容的源头，`all-in-one.html` 是生成物，不要直接改它。
 
 ## 新增专题
 

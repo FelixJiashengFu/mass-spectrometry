@@ -20,3 +20,7 @@ for page in [ROOT / "index.html", *sorted(ROOT.glob("topics/*/index.html"))]:
     assert a == 1 and b == 1, f"{page}: 找不到内嵌位置 (css={a}, js={b})"
     page.write_text(html, encoding="utf-8")
     print("inlined", page.relative_to(ROOT))
+
+import merge  # noqa: E402  合订本跟着一起更新
+
+merge.build()

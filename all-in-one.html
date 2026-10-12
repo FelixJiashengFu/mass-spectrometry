@@ -1,0 +1,1239 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="质谱四讲合订本：丙苯的碎裂、从谱到分子式、氯的同位素峰、二苯甲酮。水墨风格，单文件。">
+<title>质谱四讲 · 合订本</title>
+<style data-inline="ink.css">
+@import url("https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&family=Noto+Serif+SC:wght@400;600;900&display=swap");
+
+/* 布局：横幅长卷。宽屏下谱图居左为主景，题跋（峰的解读）居右；窄屏退成单栏。 */
+:root {
+  --paper: #ecebe3;
+  --paper-deep: #e1dfd4;
+  --ink: #1b1c1a;
+  --ink-soft: #4c4e4a;
+  --ink-pale: #8b8d86;
+  --wash: rgba(27, 28, 26, .09);
+  --line: rgba(27, 28, 26, .22);
+  --cinnabar: #ad3324;
+  --seal-text: #f3ece0;
+  --brush: "Ma Shan Zheng", "STKaiti", "KaiTi", "Kaiti SC", serif;
+  --serif: "Noto Serif SC", "Songti SC", "STSong", "SimSun", serif;
+  --math: "STIX Two Math", "Cambria Math", "Latin Modern Math", "Times New Roman", serif;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --paper: #141615; --paper-deep: #1c1f1d; --ink: #dddcd2;
+    --ink-soft: #b1b1a7; --ink-pale: #7d7f78; --wash: rgba(221, 220, 210, .08);
+    --line: rgba(221, 220, 210, .24); --cinnabar: #d9583f;
+    --seal-text: #1a1412; color-scheme: dark;
+  }
+}
+
+* { box-sizing: border-box; }
+[hidden] { display: none !important; }
+body {
+  margin: 0;
+  background:
+    radial-gradient(ellipse 60% 36rem at 88% -6rem, var(--wash), transparent 70%),
+    radial-gradient(ellipse 40% 30rem at 0% 26rem, var(--wash), transparent 70%),
+    var(--paper);
+  color: var(--ink);
+  font: 17px/1.9 var(--serif);
+}
+.scroll {
+  max-width: 1480px;
+  margin-inline: auto;
+  padding-inline: clamp(16px, 4vw, 64px);
+  padding-block: clamp(1.6rem, 4vw, 3.2rem) 5rem;
+  display: flex; flex-direction: column;
+  gap: clamp(2.6rem, 5vw, 4.2rem);
+}
+section, header { display: flex; flex-direction: column; gap: 1.15rem; min-width: 0; }
+p { margin: 0; max-width: 44em; }
+a { color: var(--cinnabar); }
+sub, sup { font-size: .68em; line-height: 0; font-family: var(--math); }
+.chem { font-family: var(--math); white-space: nowrap; }
+strong { font-weight: 600; }
+.red { color: var(--cinnabar); }
+.num { font-variant-numeric: tabular-nums; }
+
+/* 卷首 */
+header.top { position: relative; padding-bottom: 1.4rem; border-bottom: 1px solid var(--line); }
+header.top > * { position: relative; z-index: 1; }
+header.top > svg.hills {
+  position: absolute; z-index: 0; right: 0; bottom: 0;
+  width: min(52%, 640px); height: auto; pointer-events: none;
+}
+.hills .far { fill: var(--ink); opacity: .08; }
+.hills .near { fill: var(--ink); opacity: .14; }
+.hills .sun { fill: var(--cinnabar); opacity: .85; }
+.crumbs { font-size: .84rem; color: var(--ink-pale); display: flex; gap: .6rem; flex-wrap: wrap; }
+.crumbs a { color: var(--ink-soft); text-decoration: none; border-bottom: 1px solid var(--line); }
+.crumbs a:hover { color: var(--cinnabar); }
+.eyebrow { font-size: .82rem; letter-spacing: .32em; color: var(--ink-pale); }
+h1 {
+  font-family: var(--brush); font-weight: 400;
+  font-size: clamp(2.6rem, 6vw, 4.8rem); line-height: 1.12;
+  margin: 0; letter-spacing: .02em; text-wrap: balance;
+}
+.lede { font-size: 1.08rem; color: var(--ink-soft); max-width: 40em; }
+
+/* 章节题签：朱印 + 行楷 */
+.head { display: flex; align-items: center; gap: .9rem; }
+.seal {
+  flex: none; width: 2.5rem; height: 2.5rem;
+  display: grid; place-items: center;
+  background: var(--cinnabar); color: var(--seal-text);
+  font-family: var(--brush); font-size: 1.65rem; line-height: 1;
+  border-radius: 5px 3px 6px 3px; transform: rotate(-3deg);
+}
+h2 { font-family: var(--brush); font-weight: 400; font-size: clamp(1.7rem, 3vw, 2.3rem); line-height: 1.25; margin: 0; }
+h3 { font-size: 1.02rem; font-weight: 600; margin: 0; letter-spacing: .06em; }
+h4 { font-size: .78rem; font-weight: 400; letter-spacing: .2em; color: var(--ink-pale); margin: .5rem 0 0; }
+
+/* 主景：谱图 + 题跋 */
+.stage {
+  display: grid;
+  grid-template-columns: minmax(0, 1.75fr) minmax(300px, 1fr);
+  gap: 1.2rem clamp(1.5rem, 3vw, 3rem);
+  align-items: start;
+}
+.plot { display: flex; flex-direction: column; gap: .7rem; min-width: 0; }
+.plot-bar { display: flex; flex-wrap: wrap; gap: .5rem 1rem; align-items: center; justify-content: space-between; }
+.plot-title { font-size: .9rem; color: var(--ink-soft); }
+.spec svg { display: block; width: 100%; height: auto; overflow: visible; }
+.spec text { font-family: var(--serif); fill: var(--ink-soft); font-size: 13px; font-variant-numeric: tabular-nums; }
+.spec .axis { stroke: var(--ink); stroke-width: 2.4; stroke-linecap: round; fill: none; }
+.spec .tick { stroke: var(--ink-soft); stroke-width: 1; }
+.spec .grid { stroke: var(--line); stroke-width: 1; stroke-dasharray: 2 6; }
+.spec .axis-name { fill: var(--ink-pale); font-size: 12px; letter-spacing: .12em; }
+.spec .stick { fill: var(--ink); }
+.spec .stick.clipped { opacity: .5; }
+.spec .stick.on { fill: var(--cinnabar); opacity: 1; }
+.spec .stick.kin { fill: var(--ink); }
+.spec .ghost { stroke: var(--ink-pale); stroke-width: 1.6; stroke-dasharray: 4 5; fill: none; }
+.spec .ghost.on { stroke: var(--cinnabar); }
+.spec .bleed { fill: var(--ink); opacity: .13; }
+.spec .halo { fill: var(--cinnabar); opacity: .2; }
+.spec .lab { fill: var(--ink); font-size: 14px; font-weight: 600; text-anchor: middle; }
+.spec .lab.on { fill: var(--cinnabar); }
+.spec .hov { fill: var(--ink); font-size: 12.5px; text-anchor: middle; paint-order: stroke; stroke: var(--paper); stroke-width: 5px; stroke-linejoin: round; }
+.spec .arc { fill: none; stroke-width: 1.5; stroke-linecap: round; }
+.spec .arc.in { stroke: var(--cinnabar); }
+.spec .arc.out { stroke: var(--ink-soft); stroke-dasharray: 5 5; }
+.spec .arc-t { font-family: var(--math); font-size: 14px; text-anchor: middle; paint-order: stroke; stroke: var(--paper); stroke-width: 5px; stroke-linejoin: round; }
+.spec .arc-t.in { fill: var(--cinnabar); }
+.spec .arc-t.out { fill: var(--ink-soft); }
+.spec .mk-in { fill: var(--cinnabar); }
+.spec .mk-out { fill: var(--ink-soft); }
+.spec .hit { fill: transparent; cursor: pointer; }
+
+.chips { display: flex; flex-wrap: wrap; gap: .4rem; }
+.chips button, .toggle, .node {
+  font: inherit; font-size: .9rem; line-height: 1.2; font-variant-numeric: tabular-nums;
+  color: var(--ink); background: transparent;
+  border: 1px solid var(--line); border-radius: 999px;
+  padding: .36rem .8rem; cursor: pointer;
+}
+.chips button:hover, .toggle:hover, .node:hover { border-color: var(--ink); }
+.chips button[aria-pressed="true"], .toggle[aria-pressed="true"] { background: var(--ink); color: var(--paper); border-color: var(--ink); }
+button:focus-visible, input:focus-visible, a:focus-visible { outline: 2px solid var(--cinnabar); outline-offset: 3px; }
+.hint { font-size: .84rem; color: var(--ink-pale); }
+
+/* 题跋：选中峰的解读 */
+.panel {
+  display: flex; flex-direction: column; gap: .55rem;
+  border-left: 2px solid var(--ink);
+  padding: .3rem 0 .6rem 1.4rem;
+  min-height: 22rem;
+}
+.p-mz { display: flex; align-items: baseline; gap: .6rem; flex-wrap: wrap; }
+.p-mz b { font-family: var(--brush); font-weight: 400; font-size: 4.2rem; line-height: 1; color: var(--cinnabar); }
+.p-mz span { font-size: .84rem; color: var(--ink-pale); letter-spacing: .1em; }
+.p-ion { font-family: var(--math); font-size: 1.7rem; line-height: 1.3; }
+.p-name { color: var(--ink-soft); font-weight: 600; }
+.panel p { font-size: .96rem; max-width: none; }
+.p-links { display: flex; flex-direction: column; gap: .45rem; }
+.p-links div { display: flex; flex-direction: column; gap: .15rem; }
+.p-links button {
+  align-self: flex-start; font: inherit; font-size: .92rem; color: var(--ink);
+  background: var(--wash); border: 0; border-radius: 4px; padding: .2rem .6rem; cursor: pointer;
+  font-variant-numeric: tabular-nums;
+}
+.p-links button:hover { color: var(--cinnabar); }
+.p-links button em { font-style: normal; color: var(--cinnabar); margin-left: .5em; }
+.p-links small { font-size: .86rem; color: var(--ink-soft); line-height: 1.7; }
+
+/* 卡片栅格 */
+.cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.8rem clamp(1.5rem, 3vw, 3rem); }
+.card { display: flex; flex-direction: column; gap: .6rem; border-top: 2px solid var(--ink); padding-top: .9rem; min-width: 0; }
+.card p, .card li { font-size: .96rem; }
+.card ul { margin: 0; padding-left: 1.2em; display: flex; flex-direction: column; gap: .3rem; }
+.two { display: grid; grid-template-columns: repeat(auto-fit, minmax(380px, 1fr)); gap: 1.8rem clamp(1.5rem, 3vw, 3rem); align-items: start; }
+.two > div { display: flex; flex-direction: column; gap: .9rem; min-width: 0; }
+
+.steps { margin: 0; padding: 0; list-style: none; counter-reset: s; display: flex; flex-direction: column; gap: .7rem; max-width: 46em; }
+.steps li { counter-increment: s; display: grid; grid-template-columns: 2.2rem minmax(0, 1fr); gap: .4rem; font-size: .98rem; }
+.steps li::before { content: counter(s, cjk-ideographic); font-family: var(--brush); font-size: 1.5rem; line-height: 1.25; color: var(--cinnabar); }
+
+/* 碎裂路径 */
+.flows { display: flex; flex-direction: column; gap: .9rem; }
+.flow { display: flex; flex-wrap: wrap; align-items: center; gap: .5rem .6rem; }
+.flow .tag { font-size: .84rem; color: var(--ink-pale); width: 7.5em; flex: none; }
+.node { border-radius: 6px 3px 7px 3px; border-color: var(--ink); padding: .3rem .7rem; font-weight: 600; font-size: 1rem; }
+.node small { font-weight: 400; font-size: .78rem; color: var(--ink-soft); margin-left: .45em; font-family: var(--math); }
+.node:hover { color: var(--cinnabar); border-color: var(--cinnabar); }
+.arrow { font-size: .82rem; color: var(--ink-soft); white-space: nowrap; }
+.arrow::after { content: " ⟶"; color: var(--ink-pale); }
+
+/* 式子与表 */
+.eq { font-family: var(--math); font-size: 1.18rem; line-height: 1.5; padding: .5rem 0; overflow-x: auto; white-space: nowrap; }
+.frac { display: inline-flex; flex-direction: column; vertical-align: middle; text-align: center; line-height: 1.35; margin: 0 .2em; }
+.frac > span:first-child { border-bottom: 1px solid currentColor; padding: 0 .4em; }
+.frac > span:last-child { padding: 0 .4em; }
+.boxed {
+  border: 2px solid var(--ink); border-radius: 14px 5px 16px 6px / 6px 15px 5px 14px;
+  padding: .7rem 1.1rem; background: var(--wash); align-self: flex-start; max-width: 100%;
+}
+.tbl-wrap { overflow-x: auto; }
+table { border-collapse: collapse; font-size: .92rem; font-variant-numeric: tabular-nums; }
+th, td { text-align: left; padding: .3rem 1.1rem .3rem 0; border-bottom: 1px solid var(--line); white-space: nowrap; }
+th { font-weight: 400; font-size: .78rem; letter-spacing: .12em; color: var(--ink-pale); }
+td.r, th.r { text-align: right; }
+.peak-table { column-width: 15rem; column-gap: 2.5rem; }
+.peak-table table { width: 100%; break-inside: auto; }
+.peak-table tr { break-inside: avoid; }
+.peak-table td button { font: inherit; color: var(--ink); background: none; border: 0; padding: 0; cursor: pointer; border-bottom: 1px solid var(--line); font-weight: 600; }
+.peak-table td button:hover { color: var(--cinnabar); }
+.peak-table td.ion { font-family: var(--math); color: var(--ink-soft); }
+details summary { cursor: pointer; font-size: .9rem; color: var(--ink-soft); }
+details[open] summary { margin-bottom: .8rem; }
+
+/* 碳数小算盘 */
+.calc { display: flex; flex-wrap: wrap; gap: .8rem 1.4rem; align-items: flex-end; }
+.calc label { display: flex; flex-direction: column; gap: .2rem; font-size: .78rem; letter-spacing: .1em; color: var(--ink-pale); }
+.calc input {
+  font: inherit; font-size: 1.05rem; width: 7rem; color: var(--ink);
+  background: transparent; border: 0; border-bottom: 2px solid var(--ink); padding: .1rem .2rem; border-radius: 0;
+}
+.calc output { font-size: 1.05rem; }
+.calc output b { font-family: var(--brush); font-weight: 400; font-size: 2rem; color: var(--cinnabar); line-height: 1; }
+
+/* 结构小画 */
+.mol svg { display: block; width: 100%; max-width: 21rem; height: auto; }
+.mol .bond { stroke: var(--ink); stroke-width: 2.2; stroke-linecap: round; fill: none; }
+.mol .cut { stroke: var(--cinnabar); stroke-width: 2; stroke-linecap: round; fill: none; }
+.mol text { font-family: var(--serif); font-size: 13px; fill: var(--ink); }
+.mol text.c { fill: var(--cinnabar); font-weight: 600; }
+.formula { font-family: var(--math); font-size: 1.9rem; line-height: 1.4; }
+.formula .cut { color: var(--cinnabar); margin: 0 .12em; }
+
+/* 同位素小柱 */
+.iso { display: flex; gap: 2rem; flex-wrap: wrap; align-items: flex-end; }
+.iso figure { margin: 0; display: flex; flex-direction: column; gap: .3rem; align-items: center; }
+.iso .bars { display: flex; gap: 7px; align-items: flex-end; height: 84px; border-bottom: 2px solid var(--ink); padding: 0 6px; }
+.iso .bars i { width: 7px; background: var(--ink); border-radius: 3px 3px 0 0; }
+.iso figcaption { font-size: .8rem; color: var(--ink-soft); text-align: center; line-height: 1.5; }
+
+footer { font-size: .82rem; color: var(--ink-pale); border-top: 1px solid var(--line); padding-top: 1rem; }
+footer p { max-width: 60em; }
+
+/* 合订本：顶部标签 */
+.tabs {
+  position: sticky; top: 0; z-index: 10;
+  display: flex; flex-wrap: wrap; align-items: center; gap: .3rem 1.6rem;
+  padding: .55rem clamp(16px, 4vw, 64px);
+  background: var(--paper); border-bottom: 1px solid var(--line);
+}
+.tabs .brand { font-family: var(--brush); font-size: 1.5rem; line-height: 1; margin-right: auto; }
+.tabs button {
+  font: inherit; font-size: .95rem; color: var(--ink-soft); background: none; cursor: pointer;
+  border: 0; border-bottom: 2px solid transparent; padding: .35rem .1rem; display: flex; align-items: baseline; gap: .5rem;
+}
+.tabs button i { font-family: var(--brush); font-style: normal; font-size: 1.15rem; color: var(--ink-pale); }
+.tabs button:hover { color: var(--ink); }
+.tabs button[aria-selected="true"] { color: var(--ink); font-weight: 600; border-bottom-color: var(--cinnabar); }
+.tabs button[aria-selected="true"] i { color: var(--cinnabar); }
+
+/* 目录页 */
+.topic-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 0 clamp(2rem, 4vw, 4rem); }
+.topic { display: flex; flex-direction: column; gap: .35rem; padding-block: 1.3rem; border-top: 1px solid var(--line); }
+.topic .no { font-family: var(--brush); font-size: 1.5rem; color: var(--cinnabar); line-height: 1; }
+.topic a.title { color: var(--ink); font-size: 1.3rem; font-weight: 600; text-decoration: none; }
+.topic a.title:hover { color: var(--cinnabar); }
+.topic p { color: var(--ink-soft); font-size: .95rem; }
+.topic .meta { font-size: .82rem; color: var(--ink-pale); }
+
+@media (max-width: 980px) {
+  .stage { grid-template-columns: minmax(0, 1fr); }
+  .panel { min-height: 0; }
+  .two { grid-template-columns: minmax(0, 1fr); }
+  header.top > svg.hills { width: 70%; opacity: .7; }
+  .flow .tag { width: 100%; }
+}
+</style>
+</head>
+<body>
+<nav class="tabs" role="tablist" aria-label="专题">
+  <span class="brand">质谱四讲</span>
+  <button type="button" role="tab" id="tab1" aria-controls="t1" aria-selected="false" data-tab="1"><i>其一</i>丙苯的碎裂</button>
+  <button type="button" role="tab" id="tab2" aria-controls="t2" aria-selected="false" data-tab="2"><i>其二</i>从谱到分子式</button>
+  <button type="button" role="tab" id="tab3" aria-controls="t3" aria-selected="false" data-tab="3"><i>其三</i>氯留下的记号</button>
+  <button type="button" role="tab" id="tab4" aria-controls="t4" aria-selected="false" data-tab="4"><i>其四</i>二苯甲酮</button>
+</nav>
+<div class="scroll" id="t1" role="tabpanel" aria-labelledby="tab1" hidden>
+
+<header class="top">
+  <div class="crumbs"><span>质谱专题库</span><span>／</span><span>碎裂 · 其一</span></div>
+  <div class="eyebrow">MASS SPECTROMETRY · EI 碎裂</div>
+  <h1>丙苯是怎么碎的</h1>
+  <p class="lede">已知结构，看它在电子轰击下断在哪里。整张谱只有一根高峰：m/z 91。弄懂这一根，芳香烃的谱就读懂了一半。</p>
+</header>
+
+<section aria-labelledby="t1-h-fig">
+  <div class="head"><span class="seal" aria-hidden="true">观</span><h2 id="t1-h-fig">点一根峰，看它的来历</h2></div>
+  <div class="stage">
+    <div class="plot">
+      <div class="plot-bar">
+        <span class="plot-title">丙苯 <span data-f>C9H12</span> · M<sub>r</sub> = 120 · 电子轰击（EI）</span>
+        <button type="button" class="toggle" id="t1-zoom" aria-pressed="false">放大弱峰 ×5</button>
+      </div>
+      <div class="spec" id="t1-spec"></div>
+      <div class="chips" id="t1-chips" aria-label="选峰"></div>
+      <p class="hint">朱色实线指向选中峰的来源，灰色虚线指向它继续碎成的离子；线上写的是丢掉的中性碎片和质量。</p>
+    </div>
+    <aside class="panel" id="t1-panel" aria-live="polite"></aside>
+  </div>
+</section>
+
+<section aria-labelledby="t1-h-read">
+  <div class="head"><span class="seal" aria-hidden="true">读</span><h2 id="t1-h-read">三件要看懂的事</h2></div>
+  <div class="cards">
+    <div class="card">
+      <h3>先认两头：分子离子和基峰</h3>
+      <p>最右边成簇的峰是分子离子 M<sup>+•</sup>，m/z 120，正好等于丙苯的相对分子质量。它旁边矮矮的 121 是含一个 <sup>13</sup>C 的分子：9 个碳 × 1.1% ≈ 9.9%，所以 121 大约是 120 的十分之一。</p>
+      <p>最高的峰叫基峰，强度定为 100。这里的基峰不是分子离子，而是 91，说明分子离子很容易沿某一条路碎掉。</p>
+    </div>
+    <div class="card">
+      <h3>为什么偏偏是 91</h3>
+      <div class="mol">
+        <svg viewBox="0 0 230 120" role="img" aria-label="丙苯结构，苄位碳与第二个碳之间的键被切断，左边 91，右边 29">
+          <polygon class="bond" points="50,34 72.5,47 72.5,73 50,86 27.5,73 27.5,47"/>
+          <circle class="bond" cx="50" cy="60" r="15" style="stroke-width:1.5"/>
+          <path class="bond" d="M72.5 47 L100 32 L128 47 L156 32"/>
+          <path class="cut" d="M110 24 q5 6 0 12 t0 12 t0 12"/>
+          <text x="92" y="24" text-anchor="end">α</text>
+          <text x="128" y="64" text-anchor="middle">β</text>
+          <text x="160" y="28">γ</text>
+          <text class="c" x="62" y="108" text-anchor="middle">91 留下带电</text>
+          <text class="c" x="150" y="108" text-anchor="middle">29 以自由基走掉</text>
+        </svg>
+      </div>
+      <p>断的是苄位碳（α）和下一个碳（β）之间的键，叫<strong>苄基断裂</strong>。丢掉乙基自由基 <span data-f>C2H5•</span>（29），留下 <span data-f>C7H7^+</span>。</p>
+      <p>这个正离子的电荷能分散到整个环上，还会重排成七元环的环庚三烯正离子（tropylium）：七个碳、六个 π 电子，是芳香的，特别稳。产物越稳，这条路走得越多，峰就越高。</p>
+    </div>
+    <div class="card">
+      <h3>92 这根峰有两个来源</h3>
+      <p>课件上的星号说的就是它。一部分是 91 的同位素峰：<span data-f>C7H7^+</span> 有 7 个碳，其中一个是 <sup>13</sup>C 的概率约 7 × 1.1% = 7.7%，所以光靠同位素，92 就该有 7.7 左右。</p>
+      <p>图上的 92 大约是 11，多出来的那部分是另一种离子 <span data-f>C7H8^+•</span>：γ 碳上的一个氢经六元环过渡态转移到苯环，同时丢掉一分子乙烯（28）。这是麦氏（McLafferty）型重排，侧链上有 γ-H 的烷基苯都会出现。</p>
+      <p>判断办法：相邻两峰的比值若明显超过"碳数 × 1.1%"，高出的部分就不是同位素贡献。</p>
+    </div>
+  </div>
+</section>
+
+<section aria-labelledby="t1-h-path">
+  <div class="head"><span class="seal" aria-hidden="true">径</span><h2 id="t1-h-path">碎裂的几条路</h2></div>
+  <p>每个方块是一个离子，点一下就在上面的谱里选中它。箭头上是丢掉的中性碎片。</p>
+  <div class="flows">
+    <div class="flow"><span class="tag">主路 · 苄基断裂</span>
+      <button class="node" data-spec="#t1-spec" data-sel="120">120<small data-f>C9H12^+•</small></button><span class="arrow" data-f>−C2H5• 29</span>
+      <button class="node" data-spec="#t1-spec" data-sel="91">91<small data-f>C7H7^+</small></button><span class="arrow" data-f>−C2H2 26</span>
+      <button class="node" data-spec="#t1-spec" data-sel="65">65<small data-f>C5H5^+</small></button><span class="arrow" data-f>−C2H2 26</span>
+      <button class="node" data-spec="#t1-spec" data-sel="39">39<small data-f>C3H3^+</small></button></div>
+    <div class="flow"><span class="tag">重排 · 丢乙烯</span>
+      <button class="node" data-spec="#t1-spec" data-sel="120">120</button><span class="arrow" data-f>−C2H4 28</span>
+      <button class="node" data-spec="#t1-spec" data-sel="92">92<small data-f>C7H8^+•</small></button></div>
+    <div class="flow"><span class="tag">断在环边</span>
+      <button class="node" data-spec="#t1-spec" data-sel="120">120</button><span class="arrow" data-f>−C3H7• 43</span>
+      <button class="node" data-spec="#t1-spec" data-sel="77">77<small data-f>C6H5^+</small></button><span class="arrow" data-f>−C2H2 26</span>
+      <button class="node" data-spec="#t1-spec" data-sel="51">51<small data-f>C4H3^+</small></button></div>
+    <div class="flow"><span class="tag">丢端甲基</span>
+      <button class="node" data-spec="#t1-spec" data-sel="120">120</button><span class="arrow" data-f>−CH3• 15</span>
+      <button class="node" data-spec="#t1-spec" data-sel="105">105<small data-f>C8H9^+</small></button></div>
+  </div>
+</section>
+
+<section aria-labelledby="t1-h-keep">
+  <div class="head"><span class="seal" aria-hidden="true">记</span><h2 id="t1-h-keep">带走的规律</h2></div>
+  <div class="two">
+    <div>
+      <h3>芳香烃的指纹系列</h3>
+      <p>看到 <strong>39、51、65、77、91</strong> 这一串，就该想到苯环。其中 91 强，说明环上接着至少一个 CH<sub>2</sub>（苄基）；77 强而 91 弱，说明环直接连在别的官能团上。相邻几项常常差 26，是环一次次丢掉乙炔。</p>
+    </div>
+    <div>
+      <h3>常见的中性丢失</h3>
+      <div class="tbl-wrap"><table>
+        <thead><tr><th>M 减去</th><th>丢掉的是</th><th>说明有</th></tr></thead>
+        <tbody>
+          <tr><td>15</td><td data-f>CH3•</td><td>甲基</td></tr>
+          <tr><td>26</td><td data-f>C2H2</td><td>芳环开裂</td></tr>
+          <tr><td>28</td><td><span data-f>C2H4</span> 或 CO</td><td>重排，或羰基</td></tr>
+          <tr><td>29</td><td><span data-f>C2H5•</span> 或 CHO•</td><td>乙基，或醛</td></tr>
+          <tr><td>43</td><td><span data-f>C3H7•</span> 或 <span data-f>CH3CO•</span></td><td>丙基，或乙酰基</td></tr>
+        </tbody>
+      </table></div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p>峰强度是从课件图上读出来的近似值（原图改编自 SDBS，谱图标注 © Dr Phil Brown 2020），只保留了标注过的峰和几根较明显的小峰；要做定量请查原始数据。离子归属与机理按常见教科书说法给出。</p>
+</footer>
+</div>
+<div class="scroll" id="t2" role="tabpanel" aria-labelledby="tab2" hidden>
+
+<header class="top">
+  <div class="crumbs"><span>质谱专题库</span><span>／</span><span>同位素峰 · 其二</span></div>
+  <div class="eyebrow">MASS SPECTROMETRY · M+1 与碳数</div>
+  <h1>反过来：从谱到分子式</h1>
+  <p class="lede">上一篇是知道结构、看它怎么碎。这一篇只给一张谱和一张峰表，要把分子式找出来。钥匙是分子离子右边那根不起眼的小峰。</p>
+</header>
+
+<section aria-labelledby="t2-h-way">
+  <div class="head"><span class="seal" aria-hidden="true">法</span><h2 id="t2-h-way">三步走</h2></div>
+  <div class="two">
+    <div>
+      <ol class="steps">
+        <li><span><strong>找分子离子 M<sup>+•</sup>。</strong>电子轰击（EI）打掉一个电子，得到的就是 M<sup>+•</sup>。它是质量最大的那一簇里最高的峰，右边再有的小峰是同位素峰。</span></li>
+        <li><span><strong>用 M+1 数碳。</strong>自然界每 100 个碳里约有 1.1 个 <sup>13</sup>C。分子里有 n 个碳，M+1 就约是 M 的 n × 1.1%。</span></li>
+        <li><span><strong>用剩下的质量和碎片凑其余原子。</strong>M 减去碳的质量，看剩多少；再看碎片之间差了多少（差 19 是 F，差 1 是 H，差 16 可能是 O）。</span></li>
+      </ol>
+    </div>
+    <div>
+      <div class="boxed">
+        <div class="eq">碳数上限 ＝ <span class="frac"><span>I(M+1) × 100%</span><span>I(M) × 1.1%</span></span></div>
+      </div>
+      <p>说"上限"是因为 M+1 里还混着别的贡献（<sup>2</sup>H、<sup>17</sup>O、<sup>15</sup>N，以及下面会看到的质子化分子），算出来只会偏大，不会偏小。自己填数试试：</p>
+      <div id="t2-calc"></div>
+    </div>
+  </div>
+</section>
+
+<section aria-labelledby="t2-h-a">
+  <div class="head"><span class="seal" aria-hidden="true">一</span><h2 id="t2-h-a">第一张谱：M = 34</h2></div>
+  <div class="stage">
+    <div class="plot">
+      <div class="plot-bar">
+        <span class="plot-title">未知物甲 · EI</span>
+        <button type="button" class="toggle" id="t2-zoomA" aria-pressed="false">放大弱峰 ×10</button>
+      </div>
+      <div class="spec" id="t2-specA"></div>
+      <div class="chips" id="t2-chipsA" aria-label="选峰"></div>
+    </div>
+    <aside class="panel" id="t2-panelA" aria-live="polite"></aside>
+  </div>
+  <div class="cards">
+    <div class="card">
+      <h3>数碳</h3>
+      <div class="eq"><span class="frac"><span>1.1 × 100%</span><span>95 × 1.1%</span></span> ＝ 1.05 → 1 个碳</div>
+      <p>M 是 34（强度 95），M+1 是 35（强度 1.1）。还有一处旁证：基峰 15 右边的 16 也恰好是 1.1，正是基峰的 1.1%，说明这个碎片同样只含一个碳。</p>
+    </div>
+    <div class="card">
+      <h3>氢的同位素为什么可以不管</h3>
+      <p><sup>2</sup>H 的天然丰度只有 0.015%。3 个氢合起来给 M+1 贡献 3 × 0.015% = 0.045%，比一个碳的 1.1% 小二十多倍。课件上"3H atoms account for 0.045"说的就是这个：算上它，M+1 预期是 95 × 1.145% ≈ 1.09，和实测 1.1 对得上。</p>
+    </div>
+    <div class="card">
+      <h3>剩下的 22 是什么</h3>
+      <p>34 − 12 = 22。谱里 M 往下依次有 33、32、31，一次掉一个氢，共三个，所以有 3 个 H；22 − 3 = 19，正是氟。基峰 15 = 34 − 19 是丢掉 F 剩下的 <span data-f>CH3^+</span>，m/z 19 和 20 处还能直接看到 <span data-f>F^+</span> 和 <span data-f>HF^+•</span>。</p>
+      <p>氟只有 <sup>19</sup>F 一种稳定同位素，所以没有 M+2。答案：<strong class="red"><span data-f>CH3F</span>，氟甲烷</strong>。</p>
+    </div>
+  </div>
+</section>
+
+<section aria-labelledby="t2-h-b">
+  <div class="head"><span class="seal" aria-hidden="true">二</span><h2 id="t2-h-b">第二张谱：M = 30</h2></div>
+  <div class="stage">
+    <div class="plot">
+      <div class="plot-bar">
+        <span class="plot-title">未知物乙 · EI</span>
+        <button type="button" class="toggle" id="t2-zoomB" aria-pressed="false">放大弱峰 ×10</button>
+      </div>
+      <div class="spec" id="t2-specB"></div>
+      <div class="chips" id="t2-chipsB" aria-label="选峰"></div>
+    </div>
+    <aside class="panel" id="t2-panelB" aria-live="polite"></aside>
+  </div>
+  <div class="cards">
+    <div class="card">
+      <h3>数碳，然后发现多了一点</h3>
+      <div class="eq"><span class="frac"><span>1.3 × 100%</span><span>89 × 1.1%</span></span> ≈ 1.3 → 1 个碳</div>
+      <p>碳数只能是整数，1.3 取 1。可是比 1 多出的三成不能当作误差放过去：一个碳、两个氢、一个氧合起来，M+1 只该有 1.1% + 0.03% + 0.04% ≈ 1.17%，也就是 89 × 1.17% ≈ 1.04，实测却是 1.3。</p>
+    </div>
+    <div class="card">
+      <h3>多出来的是"自化学电离"</h3>
+      <p>离子源里样品压力稍高时，刚生成的分子离子会撞上还没电离的中性分子，从它那里抢一个氢：</p>
+      <div class="eq"><span data-f>CH2O^+•</span> ＋ <span data-f>CH2O</span> → <span data-f>CH2OH^+</span> ＋ HCO•</div>
+      <p>产物是质子化的分子 [M+H]<sup>+</sup>，质量也是 31，和 <sup>13</sup>C 同位素峰叠在一起。这叫自化学电离（self-CI）。醛、醇、胺、醚这类容易接质子的分子常见，M+1 偏高时要先想到它，别急着多算一个碳。</p>
+    </div>
+    <div class="card">
+      <h3>M+2 把氧指出来</h3>
+      <p>30 − 12 = 18，可以是 2 个 H 加 1 个 O。验证：<sup>18</sup>O 的丰度约 0.20%，含一个氧时 M+2 应为 89 × 0.20% ≈ 0.18，实测 0.21，对得上。</p>
+      <p>碎片也只掉氢：29 是 <span data-f>HCO^+</span>，28 是 <span data-f>CO^+•</span>。答案：<strong class="red"><span data-f>CH2O</span>，甲醛</strong>。</p>
+    </div>
+  </div>
+</section>
+
+<section aria-labelledby="t2-h-rule">
+  <div class="head"><span class="seal" aria-hidden="true">辨</span><h2 id="t2-h-rule">同样的整数质量，怎么排除别的候选</h2></div>
+  <div class="two">
+    <div>
+      <h3>质量 34 的候选</h3>
+      <div class="tbl-wrap"><table>
+        <thead><tr><th>分子</th><th>碳数</th><th>M+1 / M</th><th>M+2 / M</th><th>结论</th></tr></thead>
+        <tbody>
+          <tr><td data-f>CH3F</td><td>1</td><td>约 1.1%</td><td>几乎没有</td><td class="red">相符</td></tr>
+          <tr><td data-f>H2S</td><td>0</td><td>约 0.8%</td><td>约 4.5%（<sup>34</sup>S）</td><td>没有那么高的 36</td></tr>
+          <tr><td data-f>PH3</td><td>0</td><td>约 0.05%</td><td>几乎没有</td><td>M+1 太小</td></tr>
+        </tbody>
+      </table></div>
+    </div>
+    <div>
+      <h3>质量 30 的候选</h3>
+      <div class="tbl-wrap"><table>
+        <thead><tr><th>分子</th><th>碳数</th><th>M+1 / M</th><th>M+2 / M</th><th>结论</th></tr></thead>
+        <tbody>
+          <tr><td data-f>CH2O</td><td>1</td><td>约 1.2%</td><td>约 0.2%</td><td class="red">相符</td></tr>
+          <tr><td data-f>C2H6</td><td>2</td><td>约 2.2%</td><td>约 0.01%</td><td>M+1 太大，且会丢 15</td></tr>
+          <tr><td>NO</td><td>0</td><td>约 0.4%</td><td>约 0.2%</td><td>M+1 太小，无 29、28</td></tr>
+        </tbody>
+      </table></div>
+    </div>
+  </div>
+  <p class="hint">表中比值按天然同位素丰度估算：<sup>13</sup>C 1.1%，<sup>2</sup>H 0.015%，<sup>15</sup>N 0.37%，<sup>17</sup>O 0.04%，<sup>18</sup>O 0.20%，<sup>33</sup>S 0.8%，<sup>34</sup>S 4.5%（均相对最轻同位素）。</p>
+</section>
+
+<footer>
+  <p>峰表数值抄自课件"Now the opposite!"一页。离子归属、候选对比和自化学电离的反应式是按峰表推出来的讲解，不是课件原文。</p>
+</footer>
+</div>
+<div class="scroll" id="t3" role="tabpanel" aria-labelledby="tab3" hidden>
+
+<header class="top">
+  <div class="crumbs"><span>质谱专题库</span><span>／</span><span>同位素峰 · 其三</span></div>
+  <div class="eyebrow">MASS SPECTROMETRY · 未知物 9</div>
+  <h1>氯留下的记号</h1>
+  <p class="lede">课件问：这张谱里能看出哪些有用的特征？答案有四条，合起来足够把分子拼出来，尽管它的分子离子峰根本没有出现。</p>
+</header>
+
+<section aria-labelledby="t3-h-fig">
+  <div class="head"><span class="seal" aria-hidden="true">观</span><h2 id="t3-h-fig">先自己找找看</h2></div>
+  <div class="stage">
+    <div class="plot">
+      <div class="plot-bar">
+        <span class="plot-title">未知物 9 · EI · 虚线是推断出的分子离子位置</span>
+        <button type="button" class="toggle" id="t3-zoom" aria-pressed="false">放大弱峰 ×10</button>
+      </div>
+      <div class="spec" id="t3-spec"></div>
+      <div class="chips" id="t3-chips" aria-label="选峰"></div>
+      <p class="hint">留意哪些峰是隔 2 成对出现的，再比一比每一对的高矮。</p>
+    </div>
+    <aside class="panel" id="t3-panel" aria-live="polite"></aside>
+  </div>
+  <details>
+    <summary>完整峰表（点 m/z 可在谱中选中）</summary>
+    <div class="peak-table" id="t3-table"></div>
+  </details>
+</section>
+
+<section aria-labelledby="t3-h-feat">
+  <div class="head"><span class="seal" aria-hidden="true">征</span><h2 id="t3-h-feat">四条有用的特征</h2></div>
+  <div class="cards">
+    <div class="card">
+      <h3>一 · 隔 2 成对、高矮 3 : 1 → 有一个氯</h3>
+      <div class="iso" aria-hidden="true">
+        <figure><div class="bars"><i style="height:100%"></i><i style="height:0"></i><i style="height:32%"></i></div><figcaption>一个 Cl<br>3 : 1</figcaption></figure>
+        <figure><div class="bars"><i style="height:100%"></i><i style="height:0"></i><i style="height:64%"></i><i style="height:0"></i><i style="height:10%"></i></div><figcaption>两个 Cl<br>9 : 6 : 1</figcaption></figure>
+        <figure><div class="bars"><i style="height:100%"></i><i style="height:0"></i><i style="height:97%"></i></div><figcaption>一个 Br<br>1 : 1</figcaption></figure>
+      </div>
+      <p>氯有两种同位素，<sup>35</sup>Cl 占约 76%，<sup>37</sup>Cl 占约 24%，比例约 3 : 1。含一个氯的离子因此总是一高一矮两根，相隔 2。</p>
+      <p>谱里 85 / 87 = 100 : 33，135 / 137 = 24 : 7.7，都是 3 : 1。连 35 / 37（Cl<sup>+</sup> 自己）和 47 / 49（CCl<sup>+</sup>）也是。</p>
+    </div>
+    <div class="card">
+      <h3>二 · M+1 极小 → 碳很少</h3>
+      <div class="tbl-wrap"><table>
+        <thead><tr><th>峰对</th><th class="r">比值</th><th class="r">÷ 1.1%</th><th>碳数</th></tr></thead>
+        <tbody>
+          <tr><td>70 / 69</td><td class="r">0.7 / 57 = 1.2%</td><td class="r">1.1</td><td>1</td></tr>
+          <tr><td>86 / 85</td><td class="r">1.1 / 100 = 1.1%</td><td class="r">1.0</td><td>1</td></tr>
+          <tr><td>120 / 119</td><td class="r">1.2 / 52 = 2.3%</td><td class="r">2.1</td><td>2</td></tr>
+          <tr><td>136 / 135</td><td class="r">0.5 / 24 = 2.1%</td><td class="r">1.9</td><td>2</td></tr>
+        </tbody>
+      </table></div>
+      <p>质量 119 的离子只有两个碳，135 的也只有两个碳。两个碳才 24，剩下的一百来个质量单位得由很重、而且自己不贡献 M+1 的原子来填。氟正是这样：质量 19，只有一种同位素。</p>
+    </div>
+    <div class="card">
+      <h3>三 · 峰与峰只差 19、35、50 → 没有氢</h3>
+      <p>有氢的分子总会出现差 1、差 15 的峰。这张谱里没有，出现的间距是：</p>
+      <ul>
+        <li><strong>19</strong>（F）：69 → 50 → 31，就是 <span data-f>CF3</span>、<span data-f>CF2</span>、CF</li>
+        <li><strong>35</strong>（Cl）：135 → 100，85 → 50</li>
+        <li><strong>50</strong>（<span data-f>CF2</span>）：135 → 85，119 → 69</li>
+      </ul>
+      <p>整张谱都能用 C、F、Cl 三种原子拼出来，一个氢都用不上。</p>
+    </div>
+    <div class="card">
+      <h3>四 · 最高质量的峰不是分子离子</h3>
+      <p>135 / 137 含氯，119 没有 137 那样的同伴，所以 119 不含氯。可 135 − 119 = 16，C、F、Cl 凑不出 16，说明 119 不是从 135 来的，两者是同一个更大的母体各丢一样东西：</p>
+      <div class="eq">135 ＋ 19（F）＝ 154 ＝ 119 ＋ 35（Cl）</div>
+      <p>两条路指向同一个数，分子质量是 154。全卤代烷的分子离子极不稳定，一生成就丢掉一个卤素，所以 154 处什么都看不到。</p>
+    </div>
+  </div>
+</section>
+
+<section aria-labelledby="t3-h-build">
+  <div class="head"><span class="seal" aria-hidden="true">拼</span><h2 id="t3-h-build">把分子拼出来</h2></div>
+  <div class="two">
+    <div>
+      <p>两个碳、一个氯，154 − 24 − 35 = 95 = 5 × 19，所以是五个氟：<span data-f>C2F5Cl</span>。</p>
+      <p>两个碳上怎么分？基峰 85 是 <span data-f>CF2Cl^+</span>，另一根强峰 69 是 <span data-f>CF3^+</span>，85 + 69 = 154，正好是把 C–C 键从中间切开的两半：</p>
+      <div class="boxed"><div class="formula"><span data-f>CF3</span><span class="cut">┆</span><span data-f>CF2Cl</span></div></div>
+      <p>结论：<strong class="red">氯五氟乙烷</strong>（<span data-f>CF3CF2Cl</span>，制冷剂 CFC-115），<sup>35</sup>Cl 分子质量 154。</p>
+    </div>
+    <div>
+      <h3>每根强峰都对得上</h3>
+      <div class="flows">
+        <div class="flow"><span class="tag">丢 F</span>
+          <button class="node" data-spec="#t3-spec" data-sel="154">154<small>M，未出现</small></button><span class="arrow" data-f>−F• 19</span>
+          <button class="node" data-spec="#t3-spec" data-sel="135">135<small data-f>C2F4Cl^+</small></button><span class="arrow" data-f>−CF2 50</span>
+          <button class="node" data-spec="#t3-spec" data-sel="85">85<small data-f>CF2Cl^+</small></button></div>
+        <div class="flow"><span class="tag">丢 Cl</span>
+          <button class="node" data-spec="#t3-spec" data-sel="154">154</button><span class="arrow" data-f>−Cl• 35</span>
+          <button class="node" data-spec="#t3-spec" data-sel="119">119<small data-f>C2F5^+</small></button><span class="arrow" data-f>−CF2 50</span>
+          <button class="node" data-spec="#t3-spec" data-sel="69">69<small data-f>CF3^+</small></button></div>
+        <div class="flow"><span class="tag">切 C–C</span>
+          <button class="node" data-spec="#t3-spec" data-sel="154">154</button><span class="arrow" data-f>−CF3• 69</span>
+          <button class="node" data-spec="#t3-spec" data-sel="85">85</button><span class="arrow" data-f>−Cl• 35</span>
+          <button class="node" data-spec="#t3-spec" data-sel="50">50<small data-f>CF2^+•</small></button><span class="arrow" data-f>−F• 19</span>
+          <button class="node" data-spec="#t3-spec" data-sel="31">31<small data-f>CF^+</small></button></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p>峰表数值抄自课件"What useful features can you see?"一页（谱图编号 9）。课件这一页只提问、没有给出答案；氯五氟乙烷这个结论和各峰的归属是按峰表推出来的。</p>
+</footer>
+</div>
+<div class="scroll" id="t4" role="tabpanel" aria-labelledby="tab4" hidden>
+
+<header class="top">
+  <div class="crumbs"><span>质谱专题库</span><span>／</span><span>碎裂 · 其四</span></div>
+  <div class="eyebrow">MASS SPECTROMETRY · 芳香酮</div>
+  <h1>四根峰，一条链</h1>
+  <p class="lede">课件问：对这张谱有什么想法？整张谱只有四根像样的峰：182、105、77、51。它们首尾相接，把结构一段一段交代清楚了。</p>
+</header>
+
+<section aria-labelledby="t4-h-fig">
+  <div class="head"><span class="seal" aria-hidden="true">观</span><h2 id="t4-h-fig">顺着最高的四根峰往下走</h2></div>
+  <div class="stage">
+    <div class="plot">
+      <div class="plot-bar">
+        <span class="plot-title">二苯甲酮 <span data-f>C13H10O</span> · M<sub>r</sub> = 182 · EI</span>
+        <button type="button" class="toggle" id="t4-zoom" aria-pressed="false">放大弱峰 ×10</button>
+      </div>
+      <div class="spec" id="t4-spec"></div>
+      <div class="chips" id="t4-chips" aria-label="选峰"></div>
+      <p class="hint">放大后能看到 150 附近的一小簇，以及 75.5、76.5 这两根落在半整数上的峰。</p>
+    </div>
+    <aside class="panel" id="t4-panel" aria-live="polite"></aside>
+  </div>
+  <details>
+    <summary>完整峰表（点 m/z 可在谱中选中）</summary>
+    <div class="peak-table" id="t4-table"></div>
+  </details>
+</section>
+
+<section aria-labelledby="t4-h-guess">
+  <div class="head"><span class="seal" aria-hidden="true">猜</span><h2 id="t4-h-guess">假如不知道答案，怎么猜出来</h2></div>
+  <div class="two">
+    <div>
+      <ol class="steps">
+        <li><span><strong>分子离子是 182，而且很强（60）。</strong>分子离子经得住电子轰击，多半是芳香体系。质量是偶数，按氮规则不含氮或含偶数个氮。</span></li>
+        <li><span><strong>数碳：13 个。</strong>183 / 182 = 8.5 / 60 = 14.2%，除以 1.1% 得 12.9。</span></li>
+        <li><span><strong>凑分子式。</strong>13 个碳占 156，还剩 26。最顺的拆法是 10 个 H 加 1 个 O：<span data-f>C13H10O</span>。</span></li>
+        <li><span><strong>算不饱和度。</strong>(2 × 13 + 2 − 10) ÷ 2 = 9。两个苯环各占 4，还剩 1，留给一个 C=O。</span></li>
+        <li><span><strong>看碎片验证。</strong>182 − 105 = 77 是苯基；105 − 77 = 28 是 CO；77 − 51 = 26 是乙炔。于是：苯基–羰基–苯基。</span></li>
+      </ol>
+      <div id="t4-calc"></div>
+      <p class="hint">更细一点：181 自己的 <sup>13</sup>C 峰也落在 182 上（约 8.2 × 14% ≈ 1.2），扣掉后比值略升，算出约 13.1，仍然是 13。</p>
+    </div>
+    <div>
+      <h3>断在羰基旁边：α-断裂</h3>
+      <div class="mol">
+        <svg viewBox="0 0 240 130" role="img" aria-label="二苯甲酮结构，羰基碳与右侧苯环之间的键被切断，左边 105，右边 77">
+          <polygon class="bond" points="52,54 74.5,67 74.5,93 52,106 29.500,93 29.500,67"/>
+          <circle class="bond" cx="52" cy="80" r="15" style="stroke-width:1.5"/>
+          <polygon class="bond" points="188,54 210.500,67 210.500,93 188,106 165.500,93 165.500,67"/>
+          <circle class="bond" cx="188" cy="80" r="15" style="stroke-width:1.5"/>
+          <path class="bond" d="M74.5 67 L120 44 L165.500 67"/>
+          <path class="bond" d="M116.500 44 L116.500 20 M123.500 44 L123.500 20"/>
+          <text x="120" y="14" text-anchor="middle">O</text>
+          <path class="cut" d="M146 36 q5 6 0 12 t0 12 t0 12"/>
+          <text class="c" x="70" y="126" text-anchor="middle">105 苯甲酰正离子</text>
+          <text class="c" x="192" y="126" text-anchor="middle">77 苯基</text>
+        </svg>
+      </div>
+      <p>酮最常见的碎裂是断羰基碳旁边的键。留下的 <span data-f>C6H5CO^+</span> 是酰基正离子，氧的孤对电子可以补进来形成 C≡O<sup>+</sup>，很稳，所以成了基峰。</p>
+      <p>分子两边一模一样，从哪边断都得到 105，这也是谱图如此干净的原因。若两边不同（比如苯乙酮），就会有两种 α-断裂产物。</p>
+    </div>
+  </div>
+</section>
+
+<section aria-labelledby="t4-h-chain">
+  <div class="head"><span class="seal" aria-hidden="true">径</span><h2 id="t4-h-chain">主链和两条小路</h2></div>
+  <div class="flows">
+    <div class="flow"><span class="tag">主链</span>
+      <button class="node" data-spec="#t4-spec" data-sel="182">182<small data-f>C13H10O^+•</small></button><span class="arrow" data-f>−C6H5• 77</span>
+      <button class="node" data-spec="#t4-spec" data-sel="105">105<small data-f>C6H5CO^+</small></button><span class="arrow">−CO 28</span>
+      <button class="node" data-spec="#t4-spec" data-sel="77">77<small data-f>C6H5^+</small></button><span class="arrow" data-f>−C2H2 26</span>
+      <button class="node" data-spec="#t4-spec" data-sel="51">51<small data-f>C4H3^+</small></button></div>
+    <div class="flow"><span class="tag">挤出 CO</span>
+      <button class="node" data-spec="#t4-spec" data-sel="182">182</button><span class="arrow">−CO 28</span>
+      <button class="node" data-spec="#t4-spec" data-sel="154">154<small data-f>C12H10^+•</small></button><span class="arrow" data-f>−H2 2</span>
+      <button class="node" data-spec="#t4-spec" data-sel="152">152<small data-f>C12H8^+•</small></button></div>
+    <div class="flow"><span class="tag">丢一个氢</span>
+      <button class="node" data-spec="#t4-spec" data-sel="182">182</button><span class="arrow" data-f>−H• 1</span>
+      <button class="node" data-spec="#t4-spec" data-sel="181">181<small data-f>C13H9O^+</small></button></div>
+  </div>
+</section>
+
+<section aria-labelledby="t4-h-detail">
+  <div class="head"><span class="seal" aria-hidden="true">细</span><h2 id="t4-h-detail">小峰里的两条信息</h2></div>
+  <div class="cards">
+    <div class="card">
+      <h3>每个碎片的碳数都能核对</h3>
+      <div class="tbl-wrap"><table>
+        <thead><tr><th>峰对</th><th class="r">比值</th><th class="r">÷ 1.1%</th><th>归属的碳数</th></tr></thead>
+        <tbody>
+          <tr><td>183 / 182</td><td class="r">8.5 / 60 = 14.2%</td><td class="r">12.9</td><td>13 ✓</td></tr>
+          <tr><td>106 / 105</td><td class="r">7.8 / 100 = 7.8%</td><td class="r">7.1</td><td>7 ✓</td></tr>
+          <tr><td>78 / 77</td><td class="r">4.2 / 62 = 6.8%</td><td class="r">6.2</td><td>6 ✓</td></tr>
+        </tbody>
+      </table></div>
+      <p>同位素峰不只在分子离子上有用。每根强峰右边那根小峰，都在说这个碎片有几个碳，可以拿来检验归属对不对。</p>
+    </div>
+    <div class="card">
+      <h3>半整数的峰是带两个电荷的离子</h3>
+      <p>质谱仪量的是质荷比 m/z，不是质量。带两个正电荷时，峰出现在质量的一半处；质量是奇数，就落在半整数上。</p>
+      <div class="eq">75.5 × 2 ＝ 151　　76.5 × 2 ＝ 153</div>
+      <p>所以 75.5 和 76.5 分别是质量 151 和 153 的离子带了两个电荷。它们的同位素峰会相隔 0.5 而不是 1。大的共轭芳香体系能把两个正电荷分散开，才容得下双电荷离子，这本身也是"有大芳香骨架"的一条线索。</p>
+    </div>
+    <div class="card">
+      <h3>152 那一小簇：两个环并到了一起</h3>
+      <p>分子离子把中间的 CO 整个挤出去，两个苯环直接相连，得到联苯型的 <span data-f>C12H10^+•</span>（154）；再掉氢，成为 153 和更稳的 152（<span data-f>C12H8^+•</span>）。</p>
+      <p>这类"丢掉中间、两头接上"的重排强度很低，却常见于二芳基酮、二芳基醚和二芳基砜。看到 M − 28 而分子里又没有乙基，要想到 CO。</p>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p>峰表数值抄自课件"Any ideas for this spectrum?"一页，结构（二苯甲酮）由课件给出。碎片归属、推断步骤和双电荷离子的解释是按峰表写的讲解，不是课件原文。</p>
+</footer>
+</div>
+<script data-inline="spectrum.js">
+/* 水墨质谱图：棒图、选峰题跋、丢失弧线、弱峰放大、碳数小算盘。无依赖。 */
+(function () {
+  const NS = 'http://www.w3.org/2000/svg';
+  const registry = {};
+  let uid = 0;
+
+  function svg(tag, attrs, parent) {
+    const e = document.createElementNS(NS, tag);
+    for (const k in attrs) e.setAttribute(k, attrs[k]);
+    if (parent) parent.appendChild(e);
+    return e;
+  }
+
+  // 'C7H7^+' → C<sub>7</sub>H<sub>7</sub><sup>+</sup>；'{13}C' → <sup>13</sup>C
+  function f(s) {
+    return '<span class="chem">' + String(s)
+      .replace(/\{(\d+)\}/g, '<sup>$1</sup>')
+      .replace(/([A-Za-z)\]])(\d+)/g, '$1<sub>$2</sub>')
+      .replace(/\^(\S+)/g, '<sup>$1</sup>') + '</span>';
+  }
+  // 正文里的 Unicode 上下标换成真正的 sub / sup，避免中文字体把它们撑宽
+  const SUB = '₀₁₂₃₄₅₆₇₈₉', SUP = '⁰¹²³⁴⁵⁶⁷⁸⁹⁺⁻', SUPV = '0123456789+−';
+  function uni(s) {
+    return String(s)
+      .replace(/[₀-₉]+/g, (t) => '<sub>' + [...t].map((c) => SUB.indexOf(c)).join('') + '</sub>')
+      .replace(/[⁰¹²³⁴-⁹⁺⁻]+•?/g, (t) => '<sup>' + [...t].map((c) => (c === '•' ? c : SUPV[SUP.indexOf(c)])).join('') + '</sup>')
+      .replace(/•(?![^<]*<\/sup>)/g, '<span class="chem">•</span>');
+  }
+  // SVG 文字里的化学式：字母后的数字降为下标
+  function svgChem(t, s) {
+    String(s).split(/(?<=[A-Za-z])(\d+)/).forEach((part, i) => {
+      if (!part) return;
+      const ts = svg('tspan', i % 2 ? { 'font-size': '9.5', dy: 3 } : (i ? { dy: -3 } : {}), t);
+      ts.textContent = part;
+    });
+  }
+  const num = (v) => String(v);
+
+  function mount(cfg) {
+    const host = document.querySelector(cfg.el);
+    const panel = document.querySelector(cfg.panel);
+    const chips = cfg.chips ? document.querySelector(cfg.chips) : null;
+    const table = cfg.table ? document.querySelector(cfg.table) : null;
+    const zoomBtn = cfg.zoom ? document.querySelector(cfg.zoom) : null;
+    const id = ++uid;
+    const W = 1000, H = cfg.height || 480;
+    const m = { l: 58, r: 20, t: 104, b: 46 };
+    const [x0, x1] = cfg.range;
+    const peaks = cfg.peaks.slice().sort((a, b) => a.mz - b.mz);
+    const links = cfg.links || [];
+    const byMz = {};
+    peaks.forEach((p) => { byMz[p.mz] = p; });
+    const base = H - m.b;
+    const unit = (W - m.l - m.r) / (x1 - x0);
+    const X = (mz) => m.l + (mz - x0) * unit;
+    let ymax = 100, current = null;
+    let root, arcLayer, haloLayer, hov;
+
+    const Y = (I) => base - (Math.min(I, ymax) / ymax) * (base - m.t);
+    const top = (p) => (p.ghost ? Y(ymax * 0.16) : Math.min(Y(p.I), base - 1.5));
+
+    function draw() {
+      host.innerHTML = '';
+      root = svg('svg', { viewBox: `0 0 ${W} ${H}`, role: 'img', 'aria-label': cfg.title || '质谱图' }, host);
+      const defs = svg('defs', {}, root);
+      const rough = svg('filter', { id: `rough${id}`, filterUnits: 'userSpaceOnUse', x: 0, y: 0, width: W, height: H }, defs);
+      svg('feTurbulence', { type: 'fractalNoise', baseFrequency: '0.04 0.16', numOctaves: 2, seed: 4 + id, result: 'n' }, rough);
+      svg('feDisplacementMap', { in: 'SourceGraphic', in2: 'n', scale: 3, xChannelSelector: 'R', yChannelSelector: 'G' }, rough);
+      const blur = svg('filter', { id: `blur${id}`, filterUnits: 'userSpaceOnUse', x: 0, y: 0, width: W, height: H }, defs);
+      svg('feGaussianBlur', { stdDeviation: 7 }, blur);
+      ['in', 'out'].forEach((k) => {
+        const mk = svg('marker', { id: `mk-${k}${id}`, viewBox: '0 0 10 10', refX: 8, refY: 5, markerWidth: 7, markerHeight: 7, orient: 'auto-start-reverse' }, defs);
+        svg('path', { d: 'M0 1 L9 5 L0 9 Z', class: `mk-${k}` }, mk);
+      });
+
+      // 纵轴刻度
+      [0.5, 1].forEach((t) => {
+        const y = Y(ymax * t);
+        svg('line', { x1: m.l, x2: W - m.r, y1: y, y2: y, class: 'grid' }, root);
+        svg('text', { x: m.l - 10, y: y + 4, 'text-anchor': 'end' }, root).textContent = num(ymax * t);
+      });
+      svg('text', { x: m.l - 10, y: base + 4, 'text-anchor': 'end' }, root).textContent = '0';
+      const yn = svg('text', { x: 16, y: (base + m.t) / 2, class: 'axis-name', 'text-anchor': 'middle', transform: `rotate(-90 16 ${(base + m.t) / 2})` }, root);
+      yn.textContent = ymax === 100 ? '相对强度' : `相对强度 · 放大 ${100 / ymax} 倍`;
+
+      // 墨晕
+      const bleed = svg('g', { filter: `url(#blur${id})` }, root);
+      peaks.forEach((p) => {
+        if (p.ghost || p.I < 20) return;
+        svg('ellipse', { cx: X(p.mz), cy: base - 4, rx: 10 + p.I * 0.16, ry: 5 + p.I * 0.1, class: 'bleed' }, bleed);
+      });
+      haloLayer = svg('g', { filter: `url(#blur${id})` }, root);
+
+      // 横轴
+      const step = cfg.tick || 10;
+      for (let v = Math.ceil(x0 / step) * step; v <= x1; v += step) {
+        svg('line', { x1: X(v), x2: X(v), y1: base, y2: base + 7, class: 'tick' }, root);
+        svg('text', { x: X(v), y: base + 24, 'text-anchor': 'middle' }, root).textContent = v;
+      }
+      if (cfg.minor) {
+        for (let v = Math.ceil(x0 / cfg.minor) * cfg.minor; v <= x1; v += cfg.minor) {
+          svg('line', { x1: X(v), x2: X(v), y1: base, y2: base + 3.5, class: 'tick' }, root);
+        }
+      }
+      svg('text', { x: W - m.r, y: base + 42, 'text-anchor': 'end', class: 'axis-name' }, root).textContent = 'm/z';
+
+      // 笔触
+      const ink = svg('g', { filter: `url(#rough${id})` }, root);
+      svg('path', { d: `M${m.l - 6} ${base} L${W - m.r + 6} ${base}`, class: 'axis' }, ink);
+      svg('path', { d: `M${m.l} ${base} L${m.l} ${m.t - 14}`, class: 'axis', 'stroke-width': 1.6 }, ink);
+      peaks.forEach((p) => {
+        const x = X(p.mz), y = top(p);
+        if (p.ghost) {
+          p.node = svg('line', { x1: x, x2: x, y1: base, y2: y, class: 'ghost' }, root);
+          return;
+        }
+        const w = 1.3 + 3 * Math.sqrt(Math.min(p.I, ymax) / ymax);
+        p.node = svg('polygon', {
+          points: `${x - w},${base} ${x - w * 0.4},${y} ${x + w * 0.4},${y} ${x + w},${base}`,
+          class: 'stick' + (p.I > ymax ? ' clipped' : ''),
+        }, ink);
+      });
+
+      // 峰标
+      peaks.forEach((p) => {
+        if (!p.lab) { p.text = null; return; }
+        p.text = svg('text', { x: X(p.mz) + (p.dx || 0), y: top(p) - 9 + (p.dy || 0), class: 'lab' }, root);
+        p.text.textContent = p.mz;
+      });
+
+      arcLayer = svg('g', {}, root);
+      hov = svg('text', { class: 'hov', x: 0, y: 0 }, root);
+
+      // 点击区：弱峰压在强峰之上
+      const hw = Math.max(unit / 2, 4);
+      peaks.slice().sort((a, b) => b.I - a.I).forEach((p) => {
+        const r = svg('rect', { x: X(p.mz) - hw, y: m.t - 20, width: hw * 2, height: base - m.t + 20, class: 'hit' }, root);
+        r.addEventListener('click', () => select(p.mz));
+        r.addEventListener('mouseenter', () => {
+          hov.textContent = p.ghost ? `m/z ${p.mz} · 未出现` : `m/z ${p.mz} · ${num(p.I)}`;
+          const x = Math.min(Math.max(X(p.mz), m.l + 50), W - m.r - 50);
+          hov.setAttribute('x', x);
+          hov.setAttribute('y', Math.max(top(p) - 28, 14));
+        });
+        r.addEventListener('mouseleave', () => { hov.textContent = ''; });
+      });
+    }
+
+    function arcs(mz) {
+      arcLayer.innerHTML = '';
+      // 同位素关系（+1、+2）紧挨着，只在题跋里列出，不画弧
+      const rel = links.filter((l) => (l.to === mz || l.from === mz) && l.loss.indexOf('+') < 0);
+      rel.forEach((l, k) => {
+        const a = byMz[l.from], b = byMz[l.to];
+        if (!a || !b) return;
+        const kind = l.to === mz ? 'in' : 'out';
+        const xa = X(a.mz), ya = top(a) - (a.lab ? 26 : 6), xb = X(b.mz), yb = top(b) - (b.lab ? 26 : 6);
+        const cy = Math.max(Math.min(ya, yb) - 54 - k * 22, 40 + (k % 3) * 30 - (ya + yb) / 2);
+        const cx = (xa + xb) / 2;
+        svg('path', { d: `M${xa} ${ya} Q${cx} ${cy} ${xb} ${yb}`, class: `arc ${kind}`, 'marker-end': `url(#mk-${kind}${id})` }, arcLayer);
+        const ty = (ya + yb) / 4 + cy / 2 - 6;
+        const t = svg('text', { x: Math.min(Math.max(cx, m.l + 60), W - m.r - 60), y: ty, class: `arc-t ${kind}` }, arcLayer);
+        svgChem(t, l.loss);
+      });
+    }
+
+    function renderPanel(p) {
+      const origin = links.filter((l) => l.to === p.mz);
+      const fate = links.filter((l) => l.from === p.mz);
+      const intensity = p.ghost ? '谱图中未出现' : `相对强度 ${num(p.I)}${p.I === 100 ? ' · 基峰' : ''}`;
+      const row = (l, other) => `<div><button type="button" data-go="${other}">${l.from} → ${l.to}<em>${f(l.loss)}</em></button>${l.note ? `<small>${uni(l.note)}</small>` : ''}</div>`;
+      panel.innerHTML =
+        `<div class="p-mz"><b class="num">${p.mz}</b><span>m/z</span><span>${intensity}</span></div>` +
+        (p.ion ? `<div class="p-ion">${f(p.ion)}</div>` : '') +
+        (p.name ? `<div class="p-name">${uni(p.name)}</div>` : '') +
+        (p.note ? `<p>${uni(p.note)}</p>` : '') +
+        (origin.length ? `<h4>怎么来的</h4><div class="p-links">${origin.map((l) => row(l, l.from)).join('')}</div>` : '') +
+        (fate.length ? `<h4>还会碎成</h4><div class="p-links">${fate.map((l) => row(l, l.to)).join('')}</div>` : '');
+      panel.querySelectorAll('[data-go]').forEach((b) => b.addEventListener('click', () => select(+b.dataset.go)));
+    }
+
+    function select(mz) {
+      const p = byMz[mz];
+      if (!p) return;
+      current = mz;
+      const kin = new Set();
+      links.forEach((l) => { if (l.to === mz) kin.add(l.from); if (l.from === mz) kin.add(l.to); });
+      peaks.forEach((q) => {
+        q.node.classList.toggle('on', q.mz === mz);
+        if (q.text) q.text.classList.toggle('on', q.mz === mz);
+      });
+      haloLayer.innerHTML = '';
+      svg('circle', { cx: X(mz), cy: top(p), r: 20, class: 'halo' }, haloLayer);
+      arcs(mz);
+      renderPanel(p);
+      if (chips) chips.querySelectorAll('button').forEach((b) => b.setAttribute('aria-pressed', String(+b.dataset.mz === mz)));
+    }
+
+    if (chips) {
+      peaks.filter((p) => p.lab || p.chip).forEach((p) => {
+        const b = document.createElement('button');
+        b.type = 'button';
+        b.dataset.mz = p.mz;
+        b.textContent = p.mz;
+        b.addEventListener('click', () => select(p.mz));
+        chips.appendChild(b);
+      });
+    }
+    if (table) {
+      table.innerHTML = '<table><thead><tr><th>m/z</th><th class="r">相对强度</th><th>离子</th></tr></thead><tbody>' +
+        peaks.filter((p) => !p.ghost).map((p) => `<tr><td><button type="button" data-mz="${p.mz}">${p.mz}</button></td><td class="r">${num(p.I)}</td><td class="ion">${p.ion ? f(p.ion) : ''}</td></tr>`).join('') +
+        '</tbody></table>';
+      table.querySelectorAll('button').forEach((b) => b.addEventListener('click', () => {
+        select(+b.dataset.mz);
+        host.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }));
+    }
+    if (zoomBtn) {
+      zoomBtn.addEventListener('click', () => {
+        ymax = ymax === 100 ? (cfg.zoomTo || 10) : 100;
+        zoomBtn.setAttribute('aria-pressed', String(ymax !== 100));
+        draw();
+        select(current);
+      });
+    }
+
+    draw();
+    select(cfg.start != null ? cfg.start : peaks[0].mz);
+    registry[cfg.el] = { select };
+    return registry[cfg.el];
+  }
+
+  // 由 M+1 / M 估碳数
+  function carbonCalc(sel, init) {
+    const box = document.querySelector(sel);
+    box.classList.add('calc');
+    box.innerHTML =
+      `<label>M 峰强度<input type="number" step="any" min="0" value="${init.m}"></label>` +
+      `<label>M+1 峰强度<input type="number" step="any" min="0" value="${init.m1}"></label>` +
+      '<output></output>';
+    const [a, b] = box.querySelectorAll('input');
+    const out = box.querySelector('output');
+    const run = () => {
+      const M = +a.value, M1 = +b.value;
+      if (!(M > 0) || !(M1 >= 0)) { out.textContent = '填两个正数'; return; }
+      const n = (M1 / M) / 0.011;
+      out.innerHTML = `碳数 ≈ ${n.toFixed(2)} → 最多 <b>${Math.round(n)}</b> 个碳`;
+    };
+    a.addEventListener('input', run);
+    b.addEventListener('input', run);
+    run();
+  }
+
+  function decorate() {
+    document.querySelectorAll('header.top').forEach((head, i) => {
+      const s = svg('svg', { viewBox: '0 0 600 220', class: 'hills', 'aria-hidden': 'true' });
+      const d = svg('defs', {}, s);
+      const b1 = svg('filter', { id: `hb1-${i}` }, d); svg('feGaussianBlur', { stdDeviation: 4 }, b1);
+      const b2 = svg('filter', { id: `hb2-${i}` }, d); svg('feGaussianBlur', { stdDeviation: 1.6 }, b2);
+      svg('circle', { cx: 468, cy: 44, r: 15, class: 'sun' }, s);
+      svg('path', { d: 'M0 220 L0 160 Q60 126 110 140 T200 92 Q240 60 282 104 T380 84 Q430 52 472 98 T600 124 L600 220Z', class: 'far', filter: `url(#hb1-${i})` }, s);
+      svg('path', { d: 'M0 220 L0 196 Q80 158 150 180 T300 156 Q360 128 420 170 T600 176 L600 220Z', class: 'near', filter: `url(#hb2-${i})` }, s);
+      head.insertBefore(s, head.firstChild);
+    });
+    document.querySelectorAll('[data-f]').forEach((e) => { e.innerHTML = f(e.textContent); });
+    document.querySelectorAll('[data-sel]').forEach((e) => {
+      e.addEventListener('click', () => {
+        const inst = registry[e.dataset.spec || '#spec'];
+        if (!inst) return;
+        inst.select(+e.dataset.sel);
+        document.querySelector(e.dataset.spec || '#spec').scrollIntoView({ behavior: 'smooth', block: 'center' });
+      });
+    });
+  }
+
+  window.InkSpectrum = { mount, carbonCalc, decorate, f };
+})();
+</script>
+<script>
+InkSpectrum.mount({
+  el: '#t1-spec', panel: '#t1-panel', chips: '#t1-chips', zoom: '#t1-zoom', zoomTo: 20,
+  title: '丙苯的电子轰击质谱', range: [10, 126], minor: 2, start: 91,
+  peaks: [
+    { mz: 27, I: 2, ion: '[C2H3]^+', note: '侧链碎下来的小烃基离子。' },
+    { mz: 39, I: 4.5, lab: 1, ion: '[C3H3]^+', name: '环丙烯正离子', note: '最小的芳香正离子（三元环、两个 π 电子）。芳香系列的末端。' },
+    { mz: 41, I: 1.5, ion: '[C3H5]^+', name: '烯丙基正离子', note: '来自丙基侧链。' },
+    { mz: 51, I: 3.5, lab: 1, ion: '[C4H3]^+', note: '苯基正离子再丢一分子乙炔。看到 77 和 51 成对出现，几乎可以确定有苯环。' },
+    { mz: 63, I: 1.5, ion: '[C5H3]^+', note: '65 再丢 H₂。' },
+    { mz: 65, I: 7, lab: 1, ion: '[C5H5]^+', name: '环戊二烯基正离子', note: '91 → 65 差 26，是七元环挤出一分子乙炔。这一步是"91 确实是 C₇H₇⁺"的旁证。' },
+    { mz: 77, I: 3, lab: 1, dx: -9, ion: '[C6H5]^+', name: '苯基正离子', note: '整条丙基被切掉。苯基正离子的电荷落在 sp² 碳上、无法离域，不稳，所以这条路远不如苄基断裂。' },
+    { mz: 78, I: 6, lab: 1, dx: 9, ion: '[C6H6]^+•', name: '苯自由基正离子', note: '侧链上的氢转移到环上，同时丢掉丙烯。78 比 77 的同位素峰（77 的 6.6%）高得多，所以不是同位素峰。' },
+    { mz: 79, I: 1.5, ion: '[C6H7]^+', note: '质子化的苯，量很少。' },
+    { mz: 89, I: 1.5, ion: '[C7H5]^+', note: '91 丢 H₂。' },
+    { mz: 91, I: 100, lab: 1, ion: '[C7H7]^+', name: '苄基 / 环庚三烯正离子 · 基峰', note: 'M − 29。苄位的 C–C 键最弱，断开后得到的正离子被整个环稳定，还能重排成芳香的七元环。整张谱里它最高。' },
+    { mz: 92, I: 11, lab: 1, dx: 13, ion: '[C7H8]^+•', name: '重排离子 ＋ 91 的 ¹³C 峰', note: '两种离子叠在同一个整数质量上：[¹³C¹²C₆H₇]⁺（约 7.7）和麦氏型重排产生的 C₇H₈⁺•（其余部分）。' },
+    { mz: 103, I: 1.5, ion: '[C8H7]^+', note: '105 丢 H₂。' },
+    { mz: 105, I: 4, lab: 1, ion: '[C8H9]^+', name: 'M − 15', note: '丢掉末端甲基。断的是 β–γ 键，留下的正离子不在苄位，得不到环的稳定，所以峰很矮。对比 91 就能看出"断在哪里"由产物稳定性决定。' },
+    { mz: 120, I: 25, lab: 1, ion: '[C9H12]^+•', name: '分子离子 M⁺•', note: '丙苯丢一个电子。苯环能容纳这个正电荷，所以芳香化合物的分子离子峰通常清楚可见。' },
+    { mz: 121, I: 2.5, lab: 1, dx: 13, ion: '[{13}CC8H12]^+•', name: 'M+1 同位素峰', note: '9 个碳里恰有一个是 ¹³C。强度 ≈ 25 × 9 × 1.1% ≈ 2.5。反过来用：M+1 与 M 的比值除以 1.1%，就是碳的个数。' },
+  ],
+  links: [
+    { from: 120, to: 91, loss: '−C2H5• 29', note: '苄基断裂：断 α–β 键，丢乙基自由基。' },
+    { from: 120, to: 92, loss: '−C2H4 28', note: 'γ-H 转移到环上，丢中性乙烯。' },
+    { from: 120, to: 105, loss: '−CH3• 15', note: '断 β–γ 键，丢甲基自由基。' },
+    { from: 120, to: 77, loss: '−C3H7• 43', note: '断环与侧链之间的键。' },
+    { from: 120, to: 78, loss: '−C3H6 42', note: '氢转移后丢丙烯。' },
+    { from: 91, to: 65, loss: '−C2H2 26', note: '七元环丢乙炔，缩成五元环。' },
+    { from: 65, to: 39, loss: '−C2H2 26', note: '再丢一分子乙炔。' },
+    { from: 77, to: 51, loss: '−C2H2 26', note: '苯基正离子丢乙炔。' },
+  ],
+});
+InkSpectrum.carbonCalc('#t2-calc', { m: 95, m1: 1.1 });
+
+InkSpectrum.mount({
+  el: '#t2-specA', panel: '#t2-panelA', chips: '#t2-chipsA', zoom: '#t2-zoomA',
+  title: '氟甲烷的电子轰击质谱', range: [10, 38], tick: 5, minor: 1, start: 35, height: 420,
+  peaks: [
+    { mz: 14, I: 17, lab: 1, ion: '[CH2]^+•', note: '甲基正离子再掉一个氢。' },
+    { mz: 15, I: 100, lab: 1, ion: '[CH3]^+', name: '甲基正离子 · 基峰', note: 'M − 19。34 和 15 之间差 19，没有哪种 C、H 的组合等于 19，只能是氟。' },
+    { mz: 16, I: 1.1, lab: 1, dx: 4, ion: '[{13}CH3]^+', name: '基峰的同位素峰', note: '强度恰是基峰的 1.1%：这个碎片只有一个碳。和 M+1 给出的结论互相印证。' },
+    { mz: 19, I: 2.0, lab: 1, ion: '[F]^+', note: '氟自己带电。氟的电离能很高，所以电荷多半留在甲基一侧，这根峰很矮。' },
+    { mz: 20, I: 0.4, chip: 1, ion: '[HF]^+•', note: '重排后以 HF 形式带电，量很少。' },
+    { mz: 31, I: 10, lab: 1, ion: '[CF]^+', name: 'M − 3H', note: '三个氢全掉光，只剩 C 和 F。从 34 到 31 正好三级台阶，说明分子里有三个氢。' },
+    { mz: 32, I: 9.3, lab: 1, ion: '[CHF]^+•', name: 'M − 2H' },
+    { mz: 33, I: 89, lab: 1, ion: '[CH2F]^+', name: 'M − H', note: '丢一个氢原子。和 M 几乎一样高，别把它当成分子离子：分子离子是这一簇里质量最大的强峰。' },
+    { mz: 34, I: 95, lab: 1, ion: '[CH3F]^+•', name: '分子离子 M⁺•', note: '12 + 3 + 19 = 34。偶数质量，按氮规则不含氮（或含偶数个氮）。' },
+    { mz: 35, I: 1.1, lab: 1, ion: '[{13}CH3F]^+•', name: 'M+1 同位素峰', note: '1.1 ÷ 95 = 1.16%，除以每个碳的 1.1%，得 1.05：一个碳。点"放大弱峰"才看得清它。' },
+  ],
+  links: [
+    { from: 34, to: 35, loss: '¹³C 替 ¹²C  +1', note: '不是碎裂：同一种分子里碰巧有一个 ¹³C。' },
+    { from: 34, to: 33, loss: '−H• 1' },
+    { from: 34, to: 32, loss: '−2H 2' },
+    { from: 34, to: 31, loss: '−3H 3' },
+    { from: 34, to: 15, loss: '−F• 19', note: '断 C–F 键，电荷留在碳上。' },
+    { from: 34, to: 19, loss: '−CH3• 15', note: '同一根键断开，电荷留在氟上。' },
+    { from: 34, to: 20, loss: '−CH2 14' },
+    { from: 15, to: 14, loss: '−H• 1' },
+    { from: 15, to: 16, loss: '¹³C  +1' },
+  ],
+});
+
+InkSpectrum.mount({
+  el: '#t2-specB', panel: '#t2-panelB', chips: '#t2-chipsB', zoom: '#t2-zoomB',
+  title: '甲醛的电子轰击质谱', range: [10, 34], tick: 5, minor: 1, start: 31, height: 420,
+  peaks: [
+    { mz: 12, I: 3.3, lab: 1, ion: '[C]^+' },
+    { mz: 13, I: 4.3, lab: 1, ion: '[CH]^+' },
+    { mz: 14, I: 4.4, lab: 1, ion: '[CH2]^+•', note: 'M − 16：丢掉氧，剩下亚甲基。' },
+    { mz: 15, I: 0.07, chip: 1, ion: '[{13}CH2]^+•', note: '14 的同位素峰：4.4 × 1.1% ≈ 0.05，和实测 0.07 同一量级。这里没有真正的 CH₃⁺，说明分子里没有甲基。' },
+    { mz: 28, I: 31, lab: 1, ion: '[CO]^+•', name: 'M − 2H', note: '两个氢都掉了，剩下一氧化碳正离子。' },
+    { mz: 29, I: 100, lab: 1, ion: '[HCO]^+', name: '甲酰正离子 · 基峰', note: 'M − 1。醛基碳上的氢很容易丢，留下的酰基正离子由氧的孤对电子稳定。醛的谱里 M − 1 往往很显眼。' },
+    { mz: 30, I: 89, lab: 1, ion: '[CH2O]^+•', name: '分子离子 M⁺•', note: '12 + 2 + 16 = 30。' },
+    { mz: 31, I: 1.3, lab: 1, ion: '[{13}CH2O]^+• + [CH2OH]^+', name: 'M+1：同位素峰 ＋ 质子化分子', note: '按同位素只该有约 1.04，实测 1.3。多出的约 0.26 来自自化学电离生成的 [M+H]⁺。' },
+    { mz: 32, I: 0.21, lab: 1, ion: '[CH2{18}O]^+•', name: 'M+2', note: '¹⁸O 丰度约 0.20%：89 × 0.20% ≈ 0.18，实测 0.21。有一个氧。' },
+  ],
+  links: [
+    { from: 30, to: 31, loss: '¹³C，或 +H  +1', note: '两个来源：同位素，以及离子与中性分子碰撞后多带一个氢。' },
+    { from: 30, to: 32, loss: '¹⁸O 替 ¹⁶O  +2' },
+    { from: 30, to: 29, loss: '−H• 1' },
+    { from: 30, to: 28, loss: '−2H 2' },
+    { from: 30, to: 14, loss: '−O 16' },
+    { from: 14, to: 13, loss: '−H• 1' },
+    { from: 13, to: 12, loss: '−H• 1' },
+  ],
+});
+InkSpectrum.mount({
+  el: '#t3-spec', panel: '#t3-panel', chips: '#t3-chips', table: '#t3-table', zoom: '#t3-zoom',
+  title: '未知物 9 的电子轰击质谱', range: [25, 160], minor: 5, start: 85,
+  peaks: [
+    { mz: 31, I: 42, lab: 1, ion: '[CF]^+', note: '12 + 19。出现在 31 的强峰，在不含氧、氮的谱里几乎就是 CF⁺。' },
+    { mz: 32, I: 0.5, ion: '[{13}CF]^+', note: '42 × 1.1% ≈ 0.46：一个碳。' },
+    { mz: 35, I: 2.5, lab: 1, ion: '[{35}Cl]^+', note: '氯原子自己带电。和 37 成对。' },
+    { mz: 36, I: 0.6, ion: '[H{35}Cl]^+•', note: '分子里没有氢，这点 HCl 多半来自仪器里的痕量水汽。' },
+    { mz: 37, I: 0.7, ion: '[{37}Cl]^+' },
+    { mz: 38, I: 0.2, ion: '[H{37}Cl]^+•' },
+    { mz: 43, I: 0.5, ion: '[C2F]^+' },
+    { mz: 47, I: 1.7, chip: 1, ion: '[C{35}Cl]^+', note: '和 49 成 3 : 1。说明氯直接连在碳上。' },
+    { mz: 49, I: 0.6, ion: '[C{37}Cl]^+' },
+    { mz: 50, I: 11, lab: 1, ion: '[CF2]^+•', name: '二氟卡宾正离子' },
+    { mz: 51, I: 0.1, ion: '[{13}CF2]^+•' },
+    { mz: 62, I: 0.2, ion: '[C2F2]^+•' },
+    { mz: 69, I: 57, lab: 1, ion: '[CF3]^+', name: '三氟甲基正离子', note: '12 + 3 × 19。含 CF₃ 的化合物几乎都有这根峰。它右边没有隔 2 的同伴，所以不含氯。' },
+    { mz: 70, I: 0.7, ion: '[{13}CF3]^+', note: '0.7 ÷ 57 = 1.2%：一个碳。' },
+    { mz: 85, I: 100, lab: 1, ion: '[CF2{35}Cl]^+', name: '基峰', note: '12 + 38 + 35。它和 87 是同一种离子，只是氯的同位素不同，所以两根峰一起看。' },
+    { mz: 86, I: 1.1, ion: '[{13}CF2{35}Cl]^+', note: '基峰的 1.1%：一个碳。' },
+    { mz: 87, I: 33, lab: 1, ion: '[CF2{37}Cl]^+', name: '85 的 ³⁷Cl 同伴', note: '100 : 33 ≈ 3 : 1。这是"一个氯"最直接的证据。' },
+    { mz: 88, I: 0.3, ion: '[{13}CF2{37}Cl]^+', note: '33 × 1.1% ≈ 0.36。' },
+    { mz: 100, I: 2.8, lab: 1, ion: '[C2F4]^+•', name: '四氟乙烯正离子' },
+    { mz: 101, I: 0.1, ion: '[{13}CCF4]^+•' },
+    { mz: 119, I: 52, lab: 1, ion: '[C2F5]^+', name: '五氟乙基正离子', note: '24 + 5 × 19。没有 121 处的同伴，所以氯已经丢了：119 + 35 = 154。' },
+    { mz: 120, I: 1.2, ion: '[{13}CCF5]^+', note: '1.2 ÷ 52 = 2.3%：两个碳。' },
+    { mz: 135, I: 24, lab: 1, ion: '[C2F4{35}Cl]^+', name: 'M − F', note: '谱里质量最大的一簇，但不是分子离子：它比分子少一个氟。135 + 19 = 154。' },
+    { mz: 136, I: 0.5, ion: '[{13}CCF4{35}Cl]^+', note: '0.5 ÷ 24 = 2.1%：两个碳。' },
+    { mz: 137, I: 7.7, lab: 1, dx: 12, ion: '[C2F4{37}Cl]^+', name: '135 的 ³⁷Cl 同伴', note: '24 : 7.7 ≈ 3 : 1。' },
+    { mz: 138, I: 0.16, ion: '[{13}CCF4{37}Cl]^+' },
+    { mz: 154, I: 0, ghost: 1, lab: 1, ion: '[C2F5{35}Cl]^+•', name: '分子离子 M⁺•（缺席）', note: '由碎片倒推出来的位置。碳上挂满吸电子的卤素，正电荷无处安放，分子离子来不及飞到检测器就已经碎了。遇到这种情况，用化学电离等更温和的电离方式才能看到分子质量。' },
+  ],
+  links: [
+    { from: 154, to: 135, loss: '−F• 19', note: '断一根 C–F 键。' },
+    { from: 154, to: 119, loss: '−Cl• 35', note: 'C–Cl 键比 C–F 键弱得多，氯很容易走。' },
+    { from: 154, to: 85, loss: '−CF3• 69', note: '切开 C–C 键，电荷留在含氯的一半。' },
+    { from: 154, to: 69, loss: '−CF2Cl• 85', note: '切开 C–C 键，电荷留在 CF₃ 一半。' },
+    { from: 135, to: 85, loss: '−CF2 50', note: '丢中性的二氟卡宾。' },
+    { from: 135, to: 100, loss: '−Cl• 35' },
+    { from: 119, to: 69, loss: '−CF2 50' },
+    { from: 119, to: 100, loss: '−F• 19' },
+    { from: 85, to: 50, loss: '−Cl• 35' },
+    { from: 69, to: 50, loss: '−F• 19' },
+    { from: 50, to: 31, loss: '−F• 19' },
+    { from: 85, to: 87, loss: '³⁷Cl 替 ³⁵Cl  +2', note: '不是碎裂：同一种离子的两种同位素组成。' },
+    { from: 135, to: 137, loss: '³⁷Cl 替 ³⁵Cl  +2' },
+  ],
+});
+InkSpectrum.carbonCalc('#t4-calc', { m: 60, m1: 8.5 });
+InkSpectrum.mount({
+  el: '#t4-spec', panel: '#t4-panel', chips: '#t4-chips', table: '#t4-table', zoom: '#t4-zoom',
+  title: '二苯甲酮的电子轰击质谱', range: [20, 190], minor: 5, start: 105,
+  peaks: [
+    { mz: 27, I: 1.3, ion: '[C2H3]^+' },
+    { mz: 28, I: 1.0, ion: '[CO]^+•', note: '也可能混有仪器本底的 N₂。' },
+    { mz: 38, I: 0.4, ion: '[C3H2]^+•' },
+    { mz: 39, I: 1.1, ion: '[C3H3]^+' },
+    { mz: 50, I: 6.2, ion: '[C4H2]^+•', note: '51 再掉一个氢。' },
+    { mz: 51, I: 19, lab: 1, ion: '[C4H3]^+', note: '苯基正离子丢一分子乙炔。77 和 51 结伴出现，是苯环的标志。' },
+    { mz: 52, I: 1.4, ion: '[C4H4]^+•' },
+    { mz: 53, I: 0.3 },
+    { mz: 63, I: 1.3, ion: '[C5H3]^+' },
+    { mz: 64, I: 0.6, ion: '[C5H4]^+•' },
+    { mz: 74, I: 2.0, ion: '[C6H2]^+•' },
+    { mz: 75, I: 1.7, ion: '[C6H3]^+' },
+    { mz: 75.5, I: 0.2, chip: 1, ion: '[C12H7]^2+', name: '双电荷离子', note: '质量 151、电荷 2，所以 m/z = 75.5。只有带两个电荷的奇数质量离子才会落在半整数上。' },
+    { mz: 76, I: 4.3, ion: '[C6H4]^+•', name: '苯炔正离子', note: '77 再掉一个氢。质量 152 的双电荷离子（152 ÷ 2 = 76）也会叠在这里，整数位置上分不出来。' },
+    { mz: 76.5, I: 0.3, chip: 1, ion: '[C12H9]^2+', name: '双电荷离子', note: '质量 153、电荷 2，m/z = 76.5。' },
+    { mz: 77, I: 62, lab: 1, ion: '[C6H5]^+', name: '苯基正离子', note: '105 − 28。酰基正离子丢掉一分子 CO。差 28 在这里是 CO 而不是乙烯：分子里没有乙基，而且前一步刚露出了羰基。' },
+    { mz: 78, I: 4.2, ion: '[{13}CC5H5]^+', name: '77 的同位素峰', note: '62 × 6 × 1.1% ≈ 4.1，实测 4.2：六个碳。' },
+    { mz: 79, I: 0.1 },
+    { mz: 91, I: 0.1, chip: 1, ion: '[C13H10O]^2+', name: '可能是双电荷的分子离子', note: '182 ÷ 2 = 91。二苯甲酮没有苄基，这里不该有 C₇H₇⁺；这点信号更可能是带两个电荷的分子离子。强度只有 0.1，仅作推测。' },
+    { mz: 104, I: 0.5 },
+    { mz: 105, I: 100, lab: 1, ion: '[C6H5CO]^+', name: '苯甲酰正离子 · 基峰', note: 'M − 77。α-断裂：羰基碳与一个苯环之间的键断开，丢苯基自由基。看到 105 接着 77，基本可以认定有 Ph–C(=O)– 这一段。' },
+    { mz: 106, I: 7.8, lab: 1, dx: 15, ion: '[{13}CC6H5O]^+', name: '105 的同位素峰', note: '7 × 1.1% = 7.7%，实测 7.8：七个碳。' },
+    { mz: 107, I: 0.5, note: '105 的 M+2：一个 ¹⁸O（0.2%）加上两个 ¹³C（约 0.25%）。' },
+    { mz: 119, I: 0.02 },
+    { mz: 126, I: 0.6 },
+    { mz: 127, I: 0.4 },
+    { mz: 128, I: 0.13 },
+    { mz: 139, I: 0.2 },
+    { mz: 151, I: 1.1, ion: '[C12H7]^+' },
+    { mz: 152, I: 3.4, lab: 1, ion: '[C12H8]^+•', name: '联苯烯型离子', note: 'M − CO − H₂。两个苯环并在一起后再脱氢，形成更大的共轭体系。' },
+    { mz: 153, I: 1.8, ion: '[C12H9]^+' },
+    { mz: 154, I: 1.4, chip: 1, ion: '[C12H10]^+•', name: 'M − CO', note: '把中间的羰基整个挤出，两个苯环直接相连，相当于联苯的分子离子。' },
+    { mz: 155, I: 0.16 },
+    { mz: 164, I: 0.06 },
+    { mz: 165, I: 0.44, chip: 1, ion: '[C13H9]^+', name: '一般归为芴基正离子', note: 'M − 17（丢 OH）。需要先发生氢转移和关环，强度很低。' },
+    { mz: 166, I: 0.06 },
+    { mz: 181, I: 8.2, lab: 1, dx: -15, ion: '[C13H9O]^+', name: 'M − H', note: '丢一个环上的氢。一般认为同时关环，成为三环的芴酮型离子。' },
+    { mz: 182, I: 60, lab: 1, ion: '[C13H10O]^+•', name: '分子离子 M⁺•', note: '两个苯环和羰基连成一个大共轭体系，能很好地容纳正电荷和单电子，所以分子离子峰很强。' },
+    { mz: 183, I: 8.5, lab: 1, dx: 15, ion: '[{13}CC12H10O]^+•', name: 'M+1 同位素峰', note: '8.5 ÷ 60 = 14.2%，除以 1.1% 得 12.9：十三个碳。' },
+    { mz: 184, I: 0.61, ion: '', name: 'M+2', note: '两个 ¹³C（约 1.0%）加一个 ¹⁸O（0.2%），预期约 60 × 1.2% ≈ 0.7，实测 0.61。' },
+  ],
+  links: [
+    { from: 182, to: 105, loss: '−C6H5• 77', note: 'α-断裂，丢苯基自由基。' },
+    { from: 105, to: 77, loss: '−CO 28', note: '酰基正离子脱羰。' },
+    { from: 77, to: 51, loss: '−C2H2 26', note: '苯基正离子丢乙炔。' },
+    { from: 182, to: 181, loss: '−H• 1' },
+    { from: 182, to: 154, loss: '−CO 28', note: '挤出 CO，两环相连。' },
+    { from: 154, to: 152, loss: '−H2 2' },
+    { from: 182, to: 165, loss: '−OH• 17' },
+    { from: 182, to: 183, loss: '¹³C  +1', note: '不是碎裂：十三个碳里有一个是 ¹³C。' },
+    { from: 105, to: 106, loss: '¹³C  +1' },
+    { from: 51, to: 50, loss: '−H• 1' },
+  ],
+});
+InkSpectrum.decorate();
+(function () {
+  const tabs = [...document.querySelectorAll('.tabs [data-tab]')];
+  function show(n, jump) {
+    if (!document.getElementById('t' + n)) n = '1';
+    tabs.forEach((b) => {
+      const on = b.dataset.tab === String(n);
+      b.setAttribute('aria-selected', String(on));
+      document.getElementById('t' + b.dataset.tab).hidden = !on;
+    });
+    if (jump) window.scrollTo(0, 0);
+  }
+  tabs.forEach((b) => b.addEventListener('click', () => {
+    show(b.dataset.tab, true);
+    try { history.replaceState(null, '', '#' + b.dataset.tab); } catch (e) {}
+  }));
+  show((location.hash || '#1').slice(1), false);
+})();
+</script>
+</body>
+</html>

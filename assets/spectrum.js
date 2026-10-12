@@ -252,17 +252,16 @@
   }
 
   function decorate() {
-    const head = document.querySelector('header.top');
-    if (head) {
+    document.querySelectorAll('header.top').forEach((head, i) => {
       const s = svg('svg', { viewBox: '0 0 600 220', class: 'hills', 'aria-hidden': 'true' });
       const d = svg('defs', {}, s);
-      const b1 = svg('filter', { id: 'hb1' }, d); svg('feGaussianBlur', { stdDeviation: 4 }, b1);
-      const b2 = svg('filter', { id: 'hb2' }, d); svg('feGaussianBlur', { stdDeviation: 1.6 }, b2);
+      const b1 = svg('filter', { id: `hb1-${i}` }, d); svg('feGaussianBlur', { stdDeviation: 4 }, b1);
+      const b2 = svg('filter', { id: `hb2-${i}` }, d); svg('feGaussianBlur', { stdDeviation: 1.6 }, b2);
       svg('circle', { cx: 468, cy: 44, r: 15, class: 'sun' }, s);
-      svg('path', { d: 'M0 220 L0 160 Q60 126 110 140 T200 92 Q240 60 282 104 T380 84 Q430 52 472 98 T600 124 L600 220Z', class: 'far', filter: 'url(#hb1)' }, s);
-      svg('path', { d: 'M0 220 L0 196 Q80 158 150 180 T300 156 Q360 128 420 170 T600 176 L600 220Z', class: 'near', filter: 'url(#hb2)' }, s);
+      svg('path', { d: 'M0 220 L0 160 Q60 126 110 140 T200 92 Q240 60 282 104 T380 84 Q430 52 472 98 T600 124 L600 220Z', class: 'far', filter: `url(#hb1-${i})` }, s);
+      svg('path', { d: 'M0 220 L0 196 Q80 158 150 180 T300 156 Q360 128 420 170 T600 176 L600 220Z', class: 'near', filter: `url(#hb2-${i})` }, s);
       head.insertBefore(s, head.firstChild);
-    }
+    });
     document.querySelectorAll('[data-f]').forEach((e) => { e.innerHTML = f(e.textContent); });
     document.querySelectorAll('[data-sel]').forEach((e) => {
       e.addEventListener('click', () => {

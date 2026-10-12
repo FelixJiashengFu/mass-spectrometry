@@ -233,6 +233,23 @@ details[open] summary { margin-bottom: .8rem; }
 footer { font-size: .82rem; color: var(--ink-pale); border-top: 1px solid var(--line); padding-top: 1rem; }
 footer p { max-width: 60em; }
 
+/* 合订本：顶部标签 */
+.tabs {
+  position: sticky; top: 0; z-index: 10;
+  display: flex; flex-wrap: wrap; align-items: center; gap: .3rem 1.6rem;
+  padding: .55rem clamp(16px, 4vw, 64px);
+  background: var(--paper); border-bottom: 1px solid var(--line);
+}
+.tabs .brand { font-family: var(--brush); font-size: 1.5rem; line-height: 1; margin-right: auto; }
+.tabs button {
+  font: inherit; font-size: .95rem; color: var(--ink-soft); background: none; cursor: pointer;
+  border: 0; border-bottom: 2px solid transparent; padding: .35rem .1rem; display: flex; align-items: baseline; gap: .5rem;
+}
+.tabs button i { font-family: var(--brush); font-style: normal; font-size: 1.15rem; color: var(--ink-pale); }
+.tabs button:hover { color: var(--ink); }
+.tabs button[aria-selected="true"] { color: var(--ink); font-weight: 600; border-bottom-color: var(--cinnabar); }
+.tabs button[aria-selected="true"] i { color: var(--cinnabar); }
+
 /* 目录页 */
 .topic-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 0 clamp(2rem, 4vw, 4rem); }
 .topic { display: flex; flex-direction: column; gap: .35rem; padding-block: 1.3rem; border-top: 1px solid var(--line); }

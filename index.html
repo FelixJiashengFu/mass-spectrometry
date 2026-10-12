@@ -241,6 +241,23 @@ details[open] summary { margin-bottom: .8rem; }
 footer { font-size: .82rem; color: var(--ink-pale); border-top: 1px solid var(--line); padding-top: 1rem; }
 footer p { max-width: 60em; }
 
+/* 合订本：顶部标签 */
+.tabs {
+  position: sticky; top: 0; z-index: 10;
+  display: flex; flex-wrap: wrap; align-items: center; gap: .3rem 1.6rem;
+  padding: .55rem clamp(16px, 4vw, 64px);
+  background: var(--paper); border-bottom: 1px solid var(--line);
+}
+.tabs .brand { font-family: var(--brush); font-size: 1.5rem; line-height: 1; margin-right: auto; }
+.tabs button {
+  font: inherit; font-size: .95rem; color: var(--ink-soft); background: none; cursor: pointer;
+  border: 0; border-bottom: 2px solid transparent; padding: .35rem .1rem; display: flex; align-items: baseline; gap: .5rem;
+}
+.tabs button i { font-family: var(--brush); font-style: normal; font-size: 1.15rem; color: var(--ink-pale); }
+.tabs button:hover { color: var(--ink); }
+.tabs button[aria-selected="true"] { color: var(--ink); font-weight: 600; border-bottom-color: var(--cinnabar); }
+.tabs button[aria-selected="true"] i { color: var(--cinnabar); }
+
 /* 目录页 */
 .topic-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 0 clamp(2rem, 4vw, 4rem); }
 .topic { display: flex; flex-direction: column; gap: .35rem; padding-block: 1.3rem; border-top: 1px solid var(--line); }
@@ -265,6 +282,7 @@ footer p { max-width: 60em; }
     <div class="eyebrow">MASS SPECTROMETRY</div>
     <h1>质谱专题库</h1>
     <p class="lede">每个专题讲一张谱：可以点的棒图，配上每根峰的来历和推断的步骤。水墨风格，为电脑宽屏排版。</p>
+    <p><a href="all-in-one.html">合订本：四个专题合在一个文件里</a>，顶部标签切换，下载这一个就够。</p>
   </header>
 
   <section aria-labelledby="g-frag">
@@ -560,17 +578,16 @@ footer p { max-width: 60em; }
   }
 
   function decorate() {
-    const head = document.querySelector('header.top');
-    if (head) {
+    document.querySelectorAll('header.top').forEach((head, i) => {
       const s = svg('svg', { viewBox: '0 0 600 220', class: 'hills', 'aria-hidden': 'true' });
       const d = svg('defs', {}, s);
-      const b1 = svg('filter', { id: 'hb1' }, d); svg('feGaussianBlur', { stdDeviation: 4 }, b1);
-      const b2 = svg('filter', { id: 'hb2' }, d); svg('feGaussianBlur', { stdDeviation: 1.6 }, b2);
+      const b1 = svg('filter', { id: `hb1-${i}` }, d); svg('feGaussianBlur', { stdDeviation: 4 }, b1);
+      const b2 = svg('filter', { id: `hb2-${i}` }, d); svg('feGaussianBlur', { stdDeviation: 1.6 }, b2);
       svg('circle', { cx: 468, cy: 44, r: 15, class: 'sun' }, s);
-      svg('path', { d: 'M0 220 L0 160 Q60 126 110 140 T200 92 Q240 60 282 104 T380 84 Q430 52 472 98 T600 124 L600 220Z', class: 'far', filter: 'url(#hb1)' }, s);
-      svg('path', { d: 'M0 220 L0 196 Q80 158 150 180 T300 156 Q360 128 420 170 T600 176 L600 220Z', class: 'near', filter: 'url(#hb2)' }, s);
+      svg('path', { d: 'M0 220 L0 160 Q60 126 110 140 T200 92 Q240 60 282 104 T380 84 Q430 52 472 98 T600 124 L600 220Z', class: 'far', filter: `url(#hb1-${i})` }, s);
+      svg('path', { d: 'M0 220 L0 196 Q80 158 150 180 T300 156 Q360 128 420 170 T600 176 L600 220Z', class: 'near', filter: `url(#hb2-${i})` }, s);
       head.insertBefore(s, head.firstChild);
-    }
+    });
     document.querySelectorAll('[data-f]').forEach((e) => { e.innerHTML = f(e.textContent); });
     document.querySelectorAll('[data-sel]').forEach((e) => {
       e.addEventListener('click', () => {
