@@ -1,0 +1,173 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="水墨风格讲解：从氯的 3:1 同位素峰对、极小的 M+1 和 19/35/50 的质量差，推出未知物 9 是氯五氟乙烷，并说明分子离子峰为何缺席。">
+<title>未知物九：氯留下的记号 · 质谱专题库</title>
+<link rel="stylesheet" href="../../assets/ink.css">
+</head>
+<body>
+<div class="scroll">
+
+<header class="top">
+  <div class="crumbs"><a href="../../index.html">质谱专题库</a><span>／</span><span>同位素峰 · 其三</span></div>
+  <div class="eyebrow">MASS SPECTROMETRY · 未知物 9</div>
+  <h1>氯留下的记号</h1>
+  <p class="lede">课件问：这张谱里能看出哪些有用的特征？答案有四条，合起来足够把分子拼出来，尽管它的分子离子峰根本没有出现。</p>
+</header>
+
+<section aria-labelledby="h-fig">
+  <div class="head"><span class="seal" aria-hidden="true">观</span><h2 id="h-fig">先自己找找看</h2></div>
+  <div class="stage">
+    <div class="plot">
+      <div class="plot-bar">
+        <span class="plot-title">未知物 9 · EI · 虚线是推断出的分子离子位置</span>
+        <button type="button" class="toggle" id="zoom" aria-pressed="false">放大弱峰 ×10</button>
+      </div>
+      <div class="spec" id="spec"></div>
+      <div class="chips" id="chips" aria-label="选峰"></div>
+      <p class="hint">留意哪些峰是隔 2 成对出现的，再比一比每一对的高矮。</p>
+    </div>
+    <aside class="panel" id="panel" aria-live="polite"></aside>
+  </div>
+  <details>
+    <summary>完整峰表（点 m/z 可在谱中选中）</summary>
+    <div class="peak-table" id="table"></div>
+  </details>
+</section>
+
+<section aria-labelledby="h-feat">
+  <div class="head"><span class="seal" aria-hidden="true">征</span><h2 id="h-feat">四条有用的特征</h2></div>
+  <div class="cards">
+    <div class="card">
+      <h3>一 · 隔 2 成对、高矮 3 : 1 → 有一个氯</h3>
+      <div class="iso" aria-hidden="true">
+        <figure><div class="bars"><i style="height:100%"></i><i style="height:0"></i><i style="height:32%"></i></div><figcaption>一个 Cl<br>3 : 1</figcaption></figure>
+        <figure><div class="bars"><i style="height:100%"></i><i style="height:0"></i><i style="height:64%"></i><i style="height:0"></i><i style="height:10%"></i></div><figcaption>两个 Cl<br>9 : 6 : 1</figcaption></figure>
+        <figure><div class="bars"><i style="height:100%"></i><i style="height:0"></i><i style="height:97%"></i></div><figcaption>一个 Br<br>1 : 1</figcaption></figure>
+      </div>
+      <p>氯有两种同位素，<sup>35</sup>Cl 占约 76%，<sup>37</sup>Cl 占约 24%，比例约 3 : 1。含一个氯的离子因此总是一高一矮两根，相隔 2。</p>
+      <p>谱里 85 / 87 = 100 : 33，135 / 137 = 24 : 7.7，都是 3 : 1。连 35 / 37（Cl<sup>+</sup> 自己）和 47 / 49（CCl<sup>+</sup>）也是。</p>
+    </div>
+    <div class="card">
+      <h3>二 · M+1 极小 → 碳很少</h3>
+      <div class="tbl-wrap"><table>
+        <thead><tr><th>峰对</th><th class="r">比值</th><th class="r">÷ 1.1%</th><th>碳数</th></tr></thead>
+        <tbody>
+          <tr><td>70 / 69</td><td class="r">0.7 / 57 = 1.2%</td><td class="r">1.1</td><td>1</td></tr>
+          <tr><td>86 / 85</td><td class="r">1.1 / 100 = 1.1%</td><td class="r">1.0</td><td>1</td></tr>
+          <tr><td>120 / 119</td><td class="r">1.2 / 52 = 2.3%</td><td class="r">2.1</td><td>2</td></tr>
+          <tr><td>136 / 135</td><td class="r">0.5 / 24 = 2.1%</td><td class="r">1.9</td><td>2</td></tr>
+        </tbody>
+      </table></div>
+      <p>质量 119 的离子只有两个碳，135 的也只有两个碳。两个碳才 24，剩下的一百来个质量单位得由很重、而且自己不贡献 M+1 的原子来填。氟正是这样：质量 19，只有一种同位素。</p>
+    </div>
+    <div class="card">
+      <h3>三 · 峰与峰只差 19、35、50 → 没有氢</h3>
+      <p>有氢的分子总会出现差 1、差 15 的峰。这张谱里没有，出现的间距是：</p>
+      <ul>
+        <li><strong>19</strong>（F）：69 → 50 → 31，就是 <span data-f>CF3</span>、<span data-f>CF2</span>、CF</li>
+        <li><strong>35</strong>（Cl）：135 → 100，85 → 50</li>
+        <li><strong>50</strong>（<span data-f>CF2</span>）：135 → 85，119 → 69</li>
+      </ul>
+      <p>整张谱都能用 C、F、Cl 三种原子拼出来，一个氢都用不上。</p>
+    </div>
+    <div class="card">
+      <h3>四 · 最高质量的峰不是分子离子</h3>
+      <p>135 / 137 含氯，119 没有 137 那样的同伴，所以 119 不含氯。可 135 − 119 = 16，C、F、Cl 凑不出 16，说明 119 不是从 135 来的，两者是同一个更大的母体各丢一样东西：</p>
+      <div class="eq">135 ＋ 19（F）＝ 154 ＝ 119 ＋ 35（Cl）</div>
+      <p>两条路指向同一个数，分子质量是 154。全卤代烷的分子离子极不稳定，一生成就丢掉一个卤素，所以 154 处什么都看不到。</p>
+    </div>
+  </div>
+</section>
+
+<section aria-labelledby="h-build">
+  <div class="head"><span class="seal" aria-hidden="true">拼</span><h2 id="h-build">把分子拼出来</h2></div>
+  <div class="two">
+    <div>
+      <p>两个碳、一个氯，154 − 24 − 35 = 95 = 5 × 19，所以是五个氟：<span data-f>C2F5Cl</span>。</p>
+      <p>两个碳上怎么分？基峰 85 是 <span data-f>CF2Cl^+</span>，另一根强峰 69 是 <span data-f>CF3^+</span>，85 + 69 = 154，正好是把 C–C 键从中间切开的两半：</p>
+      <div class="boxed"><div class="formula"><span data-f>CF3</span><span class="cut">┆</span><span data-f>CF2Cl</span></div></div>
+      <p>结论：<strong class="red">氯五氟乙烷</strong>（<span data-f>CF3CF2Cl</span>，制冷剂 CFC-115），<sup>35</sup>Cl 分子质量 154。</p>
+    </div>
+    <div>
+      <h3>每根强峰都对得上</h3>
+      <div class="flows">
+        <div class="flow"><span class="tag">丢 F</span>
+          <button class="node" data-sel="154">154<small>M，未出现</small></button><span class="arrow" data-f>−F• 19</span>
+          <button class="node" data-sel="135">135<small data-f>C2F4Cl^+</small></button><span class="arrow" data-f>−CF2 50</span>
+          <button class="node" data-sel="85">85<small data-f>CF2Cl^+</small></button></div>
+        <div class="flow"><span class="tag">丢 Cl</span>
+          <button class="node" data-sel="154">154</button><span class="arrow" data-f>−Cl• 35</span>
+          <button class="node" data-sel="119">119<small data-f>C2F5^+</small></button><span class="arrow" data-f>−CF2 50</span>
+          <button class="node" data-sel="69">69<small data-f>CF3^+</small></button></div>
+        <div class="flow"><span class="tag">切 C–C</span>
+          <button class="node" data-sel="154">154</button><span class="arrow" data-f>−CF3• 69</span>
+          <button class="node" data-sel="85">85</button><span class="arrow" data-f>−Cl• 35</span>
+          <button class="node" data-sel="50">50<small data-f>CF2^+•</small></button><span class="arrow" data-f>−F• 19</span>
+          <button class="node" data-sel="31">31<small data-f>CF^+</small></button></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p>峰表数值抄自课件"What useful features can you see?"一页（谱图编号 9）。课件这一页只提问、没有给出答案；氯五氟乙烷这个结论和各峰的归属是按峰表推出来的。</p>
+</footer>
+</div>
+
+<script src="../../assets/spectrum.js"></script>
+<script>
+InkSpectrum.mount({
+  el: '#spec', panel: '#panel', chips: '#chips', table: '#table', zoom: '#zoom',
+  title: '未知物 9 的电子轰击质谱', range: [25, 160], minor: 5, start: 85,
+  peaks: [
+    { mz: 31, I: 42, lab: 1, ion: '[CF]^+', note: '12 + 19。出现在 31 的强峰，在不含氧、氮的谱里几乎就是 CF⁺。' },
+    { mz: 32, I: 0.5, ion: '[{13}CF]^+', note: '42 × 1.1% ≈ 0.46：一个碳。' },
+    { mz: 35, I: 2.5, lab: 1, ion: '[{35}Cl]^+', note: '氯原子自己带电。和 37 成对。' },
+    { mz: 36, I: 0.6, ion: '[H{35}Cl]^+•', note: '分子里没有氢，这点 HCl 多半来自仪器里的痕量水汽。' },
+    { mz: 37, I: 0.7, ion: '[{37}Cl]^+' },
+    { mz: 38, I: 0.2, ion: '[H{37}Cl]^+•' },
+    { mz: 43, I: 0.5, ion: '[C2F]^+' },
+    { mz: 47, I: 1.7, chip: 1, ion: '[C{35}Cl]^+', note: '和 49 成 3 : 1。说明氯直接连在碳上。' },
+    { mz: 49, I: 0.6, ion: '[C{37}Cl]^+' },
+    { mz: 50, I: 11, lab: 1, ion: '[CF2]^+•', name: '二氟卡宾正离子' },
+    { mz: 51, I: 0.1, ion: '[{13}CF2]^+•' },
+    { mz: 62, I: 0.2, ion: '[C2F2]^+•' },
+    { mz: 69, I: 57, lab: 1, ion: '[CF3]^+', name: '三氟甲基正离子', note: '12 + 3 × 19。含 CF₃ 的化合物几乎都有这根峰。它右边没有隔 2 的同伴，所以不含氯。' },
+    { mz: 70, I: 0.7, ion: '[{13}CF3]^+', note: '0.7 ÷ 57 = 1.2%：一个碳。' },
+    { mz: 85, I: 100, lab: 1, ion: '[CF2{35}Cl]^+', name: '基峰', note: '12 + 38 + 35。它和 87 是同一种离子，只是氯的同位素不同，所以两根峰一起看。' },
+    { mz: 86, I: 1.1, ion: '[{13}CF2{35}Cl]^+', note: '基峰的 1.1%：一个碳。' },
+    { mz: 87, I: 33, lab: 1, ion: '[CF2{37}Cl]^+', name: '85 的 ³⁷Cl 同伴', note: '100 : 33 ≈ 3 : 1。这是"一个氯"最直接的证据。' },
+    { mz: 88, I: 0.3, ion: '[{13}CF2{37}Cl]^+', note: '33 × 1.1% ≈ 0.36。' },
+    { mz: 100, I: 2.8, lab: 1, ion: '[C2F4]^+•', name: '四氟乙烯正离子' },
+    { mz: 101, I: 0.1, ion: '[{13}CCF4]^+•' },
+    { mz: 119, I: 52, lab: 1, ion: '[C2F5]^+', name: '五氟乙基正离子', note: '24 + 5 × 19。没有 121 处的同伴，所以氯已经丢了：119 + 35 = 154。' },
+    { mz: 120, I: 1.2, ion: '[{13}CCF5]^+', note: '1.2 ÷ 52 = 2.3%：两个碳。' },
+    { mz: 135, I: 24, lab: 1, ion: '[C2F4{35}Cl]^+', name: 'M − F', note: '谱里质量最大的一簇，但不是分子离子：它比分子少一个氟。135 + 19 = 154。' },
+    { mz: 136, I: 0.5, ion: '[{13}CCF4{35}Cl]^+', note: '0.5 ÷ 24 = 2.1%：两个碳。' },
+    { mz: 137, I: 7.7, lab: 1, dx: 12, ion: '[C2F4{37}Cl]^+', name: '135 的 ³⁷Cl 同伴', note: '24 : 7.7 ≈ 3 : 1。' },
+    { mz: 138, I: 0.16, ion: '[{13}CCF4{37}Cl]^+' },
+    { mz: 154, I: 0, ghost: 1, lab: 1, ion: '[C2F5{35}Cl]^+•', name: '分子离子 M⁺•（缺席）', note: '由碎片倒推出来的位置。碳上挂满吸电子的卤素，正电荷无处安放，分子离子来不及飞到检测器就已经碎了。遇到这种情况，用化学电离等更温和的电离方式才能看到分子质量。' },
+  ],
+  links: [
+    { from: 154, to: 135, loss: '−F• 19', note: '断一根 C–F 键。' },
+    { from: 154, to: 119, loss: '−Cl• 35', note: 'C–Cl 键比 C–F 键弱得多，氯很容易走。' },
+    { from: 154, to: 85, loss: '−CF3• 69', note: '切开 C–C 键，电荷留在含氯的一半。' },
+    { from: 154, to: 69, loss: '−CF2Cl• 85', note: '切开 C–C 键，电荷留在 CF₃ 一半。' },
+    { from: 135, to: 85, loss: '−CF2 50', note: '丢中性的二氟卡宾。' },
+    { from: 135, to: 100, loss: '−Cl• 35' },
+    { from: 119, to: 69, loss: '−CF2 50' },
+    { from: 119, to: 100, loss: '−F• 19' },
+    { from: 85, to: 50, loss: '−Cl• 35' },
+    { from: 69, to: 50, loss: '−F• 19' },
+    { from: 50, to: 31, loss: '−F• 19' },
+    { from: 85, to: 87, loss: '³⁷Cl 替 ³⁵Cl  +2', note: '不是碎裂：同一种离子的两种同位素组成。' },
+    { from: 135, to: 137, loss: '³⁷Cl 替 ³⁵Cl  +2' },
+  ],
+});
+InkSpectrum.decorate();
+</script>
+</body>
+</html>

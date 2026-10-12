@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="质谱可视化专题库：水墨风格的交互讲解网页，按主题分类。">
+<title>Mass Spectrometry · 质谱专题库</title>
+<link rel="stylesheet" href="assets/ink.css">
+</head>
+<body>
+<div class="scroll">
+  <header class="top">
+    <div class="eyebrow">MASS SPECTROMETRY</div>
+    <h1>质谱专题库</h1>
+    <p class="lede">每个专题讲一张谱：可以点的棒图，配上每根峰的来历和推断的步骤。水墨风格，为电脑宽屏排版。</p>
+  </header>
+
+  <section aria-labelledby="g-frag">
+    <div class="head"><span class="seal" aria-hidden="true">碎</span><h2 id="g-frag">碎裂：分子断在哪里</h2></div>
+    <div class="topic-grid">
+      <div class="topic">
+        <span class="no">其一</span>
+        <a class="title" href="topics/propylbenzene-fragmentation/index.html">丙苯是怎么碎的</a>
+        <p>苄基断裂为什么给出 m/z 91 基峰；92 的两个来源；芳香烃的 39、51、65、77、91 系列。</p>
+        <span class="meta">已知结构 → 读谱 · <a href="topics/propylbenzene-fragmentation/README.md">说明</a></span>
+      </div>
+      <div class="topic">
+        <span class="no">其四</span>
+        <a class="title" href="topics/benzophenone/index.html">二苯甲酮：四根峰，一条链</a>
+        <p>182 → 105 → 77 → 51 的 α-断裂链；用每个碎片的同位素峰核对碳数；半整数 m/z 处的双电荷离子。</p>
+        <span class="meta">谱 → 结构 · <a href="topics/benzophenone/README.md">说明</a></span>
+      </div>
+    </div>
+  </section>
+
+  <section aria-labelledby="g-iso">
+    <div class="head"><span class="seal" aria-hidden="true">同</span><h2 id="g-iso">同位素峰：数原子</h2></div>
+    <div class="topic-grid">
+      <div class="topic">
+        <span class="no">其二</span>
+        <a class="title" href="topics/formula-from-spectrum/index.html">反过来：从谱到分子式</a>
+        <p>用 M+1 / M 估碳数，以氟甲烷和甲醛为例；甲醛的 M+1 为什么偏高（自化学电离）；同质量候选的排除。</p>
+        <span class="meta">含碳数小算盘 · <a href="topics/formula-from-spectrum/README.md">说明</a></span>
+      </div>
+      <div class="topic">
+        <span class="no">其三</span>
+        <a class="title" href="topics/chlorine-isotope-unknown/index.html">未知物九：氯留下的记号</a>
+        <p>3 : 1 的峰对认出氯，19 / 35 / 50 的间距认出全卤代，再从碎片倒推出没有出现的分子离子。</p>
+        <span class="meta">谱 → 结构 · <a href="topics/chlorine-isotope-unknown/README.md">说明</a></span>
+      </div>
+    </div>
+  </section>
+
+  <footer><p>目前收录 4 个专题。页面需联网加载字体；断网时退回系统的楷体和宋体，内容不受影响。</p></footer>
+</div>
+<script src="assets/spectrum.js"></script>
+<script>InkSpectrum.decorate();</script>
+</body>
+</html>

@@ -1,0 +1,158 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="水墨风格讲解：丙苯的电子轰击质谱，苄基断裂为什么给出 m/z 91 基峰。">
+<title>丙苯的碎裂 · 质谱专题库</title>
+<link rel="stylesheet" href="../../assets/ink.css">
+</head>
+<body>
+<div class="scroll">
+
+<header class="top">
+  <div class="crumbs"><a href="../../index.html">质谱专题库</a><span>／</span><span>碎裂 · 其一</span></div>
+  <div class="eyebrow">MASS SPECTROMETRY · EI 碎裂</div>
+  <h1>丙苯是怎么碎的</h1>
+  <p class="lede">已知结构，看它在电子轰击下断在哪里。整张谱只有一根高峰：m/z 91。弄懂这一根，芳香烃的谱就读懂了一半。</p>
+</header>
+
+<section aria-labelledby="h-fig">
+  <div class="head"><span class="seal" aria-hidden="true">观</span><h2 id="h-fig">点一根峰，看它的来历</h2></div>
+  <div class="stage">
+    <div class="plot">
+      <div class="plot-bar">
+        <span class="plot-title">丙苯 <span data-f>C9H12</span> · M<sub>r</sub> = 120 · 电子轰击（EI）</span>
+        <button type="button" class="toggle" id="zoom" aria-pressed="false">放大弱峰 ×5</button>
+      </div>
+      <div class="spec" id="spec"></div>
+      <div class="chips" id="chips" aria-label="选峰"></div>
+      <p class="hint">朱色实线指向选中峰的来源，灰色虚线指向它继续碎成的离子；线上写的是丢掉的中性碎片和质量。</p>
+    </div>
+    <aside class="panel" id="panel" aria-live="polite"></aside>
+  </div>
+</section>
+
+<section aria-labelledby="h-read">
+  <div class="head"><span class="seal" aria-hidden="true">读</span><h2 id="h-read">三件要看懂的事</h2></div>
+  <div class="cards">
+    <div class="card">
+      <h3>先认两头：分子离子和基峰</h3>
+      <p>最右边成簇的峰是分子离子 M<sup>+•</sup>，m/z 120，正好等于丙苯的相对分子质量。它旁边矮矮的 121 是含一个 <sup>13</sup>C 的分子：9 个碳 × 1.1% ≈ 9.9%，所以 121 大约是 120 的十分之一。</p>
+      <p>最高的峰叫基峰，强度定为 100。这里的基峰不是分子离子，而是 91，说明分子离子很容易沿某一条路碎掉。</p>
+    </div>
+    <div class="card">
+      <h3>为什么偏偏是 91</h3>
+      <div class="mol">
+        <svg viewBox="0 0 230 120" role="img" aria-label="丙苯结构，苄位碳与第二个碳之间的键被切断，左边 91，右边 29">
+          <polygon class="bond" points="50,34 72.5,47 72.5,73 50,86 27.5,73 27.5,47"/>
+          <circle class="bond" cx="50" cy="60" r="15" style="stroke-width:1.5"/>
+          <path class="bond" d="M72.5 47 L100 32 L128 47 L156 32"/>
+          <path class="cut" d="M110 24 q5 6 0 12 t0 12 t0 12"/>
+          <text x="92" y="24" text-anchor="end">α</text>
+          <text x="128" y="64" text-anchor="middle">β</text>
+          <text x="160" y="28">γ</text>
+          <text class="c" x="62" y="108" text-anchor="middle">91 留下带电</text>
+          <text class="c" x="150" y="108" text-anchor="middle">29 以自由基走掉</text>
+        </svg>
+      </div>
+      <p>断的是苄位碳（α）和下一个碳（β）之间的键，叫<strong>苄基断裂</strong>。丢掉乙基自由基 <span data-f>C2H5•</span>（29），留下 <span data-f>C7H7^+</span>。</p>
+      <p>这个正离子的电荷能分散到整个环上，还会重排成七元环的环庚三烯正离子（tropylium）：七个碳、六个 π 电子，是芳香的，特别稳。产物越稳，这条路走得越多，峰就越高。</p>
+    </div>
+    <div class="card">
+      <h3>92 这根峰有两个来源</h3>
+      <p>课件上的星号说的就是它。一部分是 91 的同位素峰：<span data-f>C7H7^+</span> 有 7 个碳，其中一个是 <sup>13</sup>C 的概率约 7 × 1.1% = 7.7%，所以光靠同位素，92 就该有 7.7 左右。</p>
+      <p>图上的 92 大约是 11，多出来的那部分是另一种离子 <span data-f>C7H8^+•</span>：γ 碳上的一个氢经六元环过渡态转移到苯环，同时丢掉一分子乙烯（28）。这是麦氏（McLafferty）型重排，侧链上有 γ-H 的烷基苯都会出现。</p>
+      <p>判断办法：相邻两峰的比值若明显超过"碳数 × 1.1%"，高出的部分就不是同位素贡献。</p>
+    </div>
+  </div>
+</section>
+
+<section aria-labelledby="h-path">
+  <div class="head"><span class="seal" aria-hidden="true">径</span><h2 id="h-path">碎裂的几条路</h2></div>
+  <p>每个方块是一个离子，点一下就在上面的谱里选中它。箭头上是丢掉的中性碎片。</p>
+  <div class="flows">
+    <div class="flow"><span class="tag">主路 · 苄基断裂</span>
+      <button class="node" data-sel="120">120<small data-f>C9H12^+•</small></button><span class="arrow" data-f>−C2H5• 29</span>
+      <button class="node" data-sel="91">91<small data-f>C7H7^+</small></button><span class="arrow" data-f>−C2H2 26</span>
+      <button class="node" data-sel="65">65<small data-f>C5H5^+</small></button><span class="arrow" data-f>−C2H2 26</span>
+      <button class="node" data-sel="39">39<small data-f>C3H3^+</small></button></div>
+    <div class="flow"><span class="tag">重排 · 丢乙烯</span>
+      <button class="node" data-sel="120">120</button><span class="arrow" data-f>−C2H4 28</span>
+      <button class="node" data-sel="92">92<small data-f>C7H8^+•</small></button></div>
+    <div class="flow"><span class="tag">断在环边</span>
+      <button class="node" data-sel="120">120</button><span class="arrow" data-f>−C3H7• 43</span>
+      <button class="node" data-sel="77">77<small data-f>C6H5^+</small></button><span class="arrow" data-f>−C2H2 26</span>
+      <button class="node" data-sel="51">51<small data-f>C4H3^+</small></button></div>
+    <div class="flow"><span class="tag">丢端甲基</span>
+      <button class="node" data-sel="120">120</button><span class="arrow" data-f>−CH3• 15</span>
+      <button class="node" data-sel="105">105<small data-f>C8H9^+</small></button></div>
+  </div>
+</section>
+
+<section aria-labelledby="h-keep">
+  <div class="head"><span class="seal" aria-hidden="true">记</span><h2 id="h-keep">带走的规律</h2></div>
+  <div class="two">
+    <div>
+      <h3>芳香烃的指纹系列</h3>
+      <p>看到 <strong>39、51、65、77、91</strong> 这一串，就该想到苯环。其中 91 强，说明环上接着至少一个 CH<sub>2</sub>（苄基）；77 强而 91 弱，说明环直接连在别的官能团上。相邻几项常常差 26，是环一次次丢掉乙炔。</p>
+    </div>
+    <div>
+      <h3>常见的中性丢失</h3>
+      <div class="tbl-wrap"><table>
+        <thead><tr><th>M 减去</th><th>丢掉的是</th><th>说明有</th></tr></thead>
+        <tbody>
+          <tr><td>15</td><td data-f>CH3•</td><td>甲基</td></tr>
+          <tr><td>26</td><td data-f>C2H2</td><td>芳环开裂</td></tr>
+          <tr><td>28</td><td><span data-f>C2H4</span> 或 CO</td><td>重排，或羰基</td></tr>
+          <tr><td>29</td><td><span data-f>C2H5•</span> 或 CHO•</td><td>乙基，或醛</td></tr>
+          <tr><td>43</td><td><span data-f>C3H7•</span> 或 <span data-f>CH3CO•</span></td><td>丙基，或乙酰基</td></tr>
+        </tbody>
+      </table></div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p>峰强度是从课件图上读出来的近似值（原图改编自 SDBS，谱图标注 © Dr Phil Brown 2020），只保留了标注过的峰和几根较明显的小峰；要做定量请查原始数据。离子归属与机理按常见教科书说法给出。</p>
+</footer>
+</div>
+
+<script src="../../assets/spectrum.js"></script>
+<script>
+InkSpectrum.mount({
+  el: '#spec', panel: '#panel', chips: '#chips', zoom: '#zoom', zoomTo: 20,
+  title: '丙苯的电子轰击质谱', range: [10, 126], minor: 2, start: 91,
+  peaks: [
+    { mz: 27, I: 2, ion: '[C2H3]^+', note: '侧链碎下来的小烃基离子。' },
+    { mz: 39, I: 4.5, lab: 1, ion: '[C3H3]^+', name: '环丙烯正离子', note: '最小的芳香正离子（三元环、两个 π 电子）。芳香系列的末端。' },
+    { mz: 41, I: 1.5, ion: '[C3H5]^+', name: '烯丙基正离子', note: '来自丙基侧链。' },
+    { mz: 51, I: 3.5, lab: 1, ion: '[C4H3]^+', note: '苯基正离子再丢一分子乙炔。看到 77 和 51 成对出现，几乎可以确定有苯环。' },
+    { mz: 63, I: 1.5, ion: '[C5H3]^+', note: '65 再丢 H₂。' },
+    { mz: 65, I: 7, lab: 1, ion: '[C5H5]^+', name: '环戊二烯基正离子', note: '91 → 65 差 26，是七元环挤出一分子乙炔。这一步是"91 确实是 C₇H₇⁺"的旁证。' },
+    { mz: 77, I: 3, lab: 1, dx: -9, ion: '[C6H5]^+', name: '苯基正离子', note: '整条丙基被切掉。苯基正离子的电荷落在 sp² 碳上、无法离域，不稳，所以这条路远不如苄基断裂。' },
+    { mz: 78, I: 6, lab: 1, dx: 9, ion: '[C6H6]^+•', name: '苯自由基正离子', note: '侧链上的氢转移到环上，同时丢掉丙烯。78 比 77 的同位素峰（77 的 6.6%）高得多，所以不是同位素峰。' },
+    { mz: 79, I: 1.5, ion: '[C6H7]^+', note: '质子化的苯，量很少。' },
+    { mz: 89, I: 1.5, ion: '[C7H5]^+', note: '91 丢 H₂。' },
+    { mz: 91, I: 100, lab: 1, ion: '[C7H7]^+', name: '苄基 / 环庚三烯正离子 · 基峰', note: 'M − 29。苄位的 C–C 键最弱，断开后得到的正离子被整个环稳定，还能重排成芳香的七元环。整张谱里它最高。' },
+    { mz: 92, I: 11, lab: 1, dx: 13, ion: '[C7H8]^+•', name: '重排离子 ＋ 91 的 ¹³C 峰', note: '两种离子叠在同一个整数质量上：[¹³C¹²C₆H₇]⁺（约 7.7）和麦氏型重排产生的 C₇H₈⁺•（其余部分）。' },
+    { mz: 103, I: 1.5, ion: '[C8H7]^+', note: '105 丢 H₂。' },
+    { mz: 105, I: 4, lab: 1, ion: '[C8H9]^+', name: 'M − 15', note: '丢掉末端甲基。断的是 β–γ 键，留下的正离子不在苄位，得不到环的稳定，所以峰很矮。对比 91 就能看出"断在哪里"由产物稳定性决定。' },
+    { mz: 120, I: 25, lab: 1, ion: '[C9H12]^+•', name: '分子离子 M⁺•', note: '丙苯丢一个电子。苯环能容纳这个正电荷，所以芳香化合物的分子离子峰通常清楚可见。' },
+    { mz: 121, I: 2.5, lab: 1, dx: 13, ion: '[{13}CC8H12]^+•', name: 'M+1 同位素峰', note: '9 个碳里恰有一个是 ¹³C。强度 ≈ 25 × 9 × 1.1% ≈ 2.5。反过来用：M+1 与 M 的比值除以 1.1%，就是碳的个数。' },
+  ],
+  links: [
+    { from: 120, to: 91, loss: '−C2H5• 29', note: '苄基断裂：断 α–β 键，丢乙基自由基。' },
+    { from: 120, to: 92, loss: '−C2H4 28', note: 'γ-H 转移到环上，丢中性乙烯。' },
+    { from: 120, to: 105, loss: '−CH3• 15', note: '断 β–γ 键，丢甲基自由基。' },
+    { from: 120, to: 77, loss: '−C3H7• 43', note: '断环与侧链之间的键。' },
+    { from: 120, to: 78, loss: '−C3H6 42', note: '氢转移后丢丙烯。' },
+    { from: 91, to: 65, loss: '−C2H2 26', note: '七元环丢乙炔，缩成五元环。' },
+    { from: 65, to: 39, loss: '−C2H2 26', note: '再丢一分子乙炔。' },
+    { from: 77, to: 51, loss: '−C2H2 26', note: '苯基正离子丢乙炔。' },
+  ],
+});
+InkSpectrum.decorate();
+</script>
+</body>
+</html>

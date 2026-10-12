@@ -1,0 +1,197 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="水墨风格讲解：从质谱反推分子式。用 M+1 峰估碳数，以氟甲烷和甲醛为例，并解释甲醛 M+1 偏高的自化学电离。">
+<title>反过来：从谱到分子式 · 质谱专题库</title>
+<link rel="stylesheet" href="../../assets/ink.css">
+</head>
+<body>
+<div class="scroll">
+
+<header class="top">
+  <div class="crumbs"><a href="../../index.html">质谱专题库</a><span>／</span><span>同位素峰 · 其二</span></div>
+  <div class="eyebrow">MASS SPECTROMETRY · M+1 与碳数</div>
+  <h1>反过来：从谱到分子式</h1>
+  <p class="lede">上一篇是知道结构、看它怎么碎。这一篇只给一张谱和一张峰表，要把分子式找出来。钥匙是分子离子右边那根不起眼的小峰。</p>
+</header>
+
+<section aria-labelledby="h-way">
+  <div class="head"><span class="seal" aria-hidden="true">法</span><h2 id="h-way">三步走</h2></div>
+  <div class="two">
+    <div>
+      <ol class="steps">
+        <li><span><strong>找分子离子 M<sup>+•</sup>。</strong>电子轰击（EI）打掉一个电子，得到的就是 M<sup>+•</sup>。它是质量最大的那一簇里最高的峰，右边再有的小峰是同位素峰。</span></li>
+        <li><span><strong>用 M+1 数碳。</strong>自然界每 100 个碳里约有 1.1 个 <sup>13</sup>C。分子里有 n 个碳，M+1 就约是 M 的 n × 1.1%。</span></li>
+        <li><span><strong>用剩下的质量和碎片凑其余原子。</strong>M 减去碳的质量，看剩多少；再看碎片之间差了多少（差 19 是 F，差 1 是 H，差 16 可能是 O）。</span></li>
+      </ol>
+    </div>
+    <div>
+      <div class="boxed">
+        <div class="eq">碳数上限 ＝ <span class="frac"><span>I(M+1) × 100%</span><span>I(M) × 1.1%</span></span></div>
+      </div>
+      <p>说"上限"是因为 M+1 里还混着别的贡献（<sup>2</sup>H、<sup>17</sup>O、<sup>15</sup>N，以及下面会看到的质子化分子），算出来只会偏大，不会偏小。自己填数试试：</p>
+      <div id="calc"></div>
+    </div>
+  </div>
+</section>
+
+<section aria-labelledby="h-a">
+  <div class="head"><span class="seal" aria-hidden="true">一</span><h2 id="h-a">第一张谱：M = 34</h2></div>
+  <div class="stage">
+    <div class="plot">
+      <div class="plot-bar">
+        <span class="plot-title">未知物甲 · EI</span>
+        <button type="button" class="toggle" id="zoomA" aria-pressed="false">放大弱峰 ×10</button>
+      </div>
+      <div class="spec" id="specA"></div>
+      <div class="chips" id="chipsA" aria-label="选峰"></div>
+    </div>
+    <aside class="panel" id="panelA" aria-live="polite"></aside>
+  </div>
+  <div class="cards">
+    <div class="card">
+      <h3>数碳</h3>
+      <div class="eq"><span class="frac"><span>1.1 × 100%</span><span>95 × 1.1%</span></span> ＝ 1.05 → 1 个碳</div>
+      <p>M 是 34（强度 95），M+1 是 35（强度 1.1）。还有一处旁证：基峰 15 右边的 16 也恰好是 1.1，正是基峰的 1.1%，说明这个碎片同样只含一个碳。</p>
+    </div>
+    <div class="card">
+      <h3>氢的同位素为什么可以不管</h3>
+      <p><sup>2</sup>H 的天然丰度只有 0.015%。3 个氢合起来给 M+1 贡献 3 × 0.015% = 0.045%，比一个碳的 1.1% 小二十多倍。课件上"3H atoms account for 0.045"说的就是这个：算上它，M+1 预期是 95 × 1.145% ≈ 1.09，和实测 1.1 对得上。</p>
+    </div>
+    <div class="card">
+      <h3>剩下的 22 是什么</h3>
+      <p>34 − 12 = 22。谱里 M 往下依次有 33、32、31，一次掉一个氢，共三个，所以有 3 个 H；22 − 3 = 19，正是氟。基峰 15 = 34 − 19 是丢掉 F 剩下的 <span data-f>CH3^+</span>，m/z 19 和 20 处还能直接看到 <span data-f>F^+</span> 和 <span data-f>HF^+•</span>。</p>
+      <p>氟只有 <sup>19</sup>F 一种稳定同位素，所以没有 M+2。答案：<strong class="red"><span data-f>CH3F</span>，氟甲烷</strong>。</p>
+    </div>
+  </div>
+</section>
+
+<section aria-labelledby="h-b">
+  <div class="head"><span class="seal" aria-hidden="true">二</span><h2 id="h-b">第二张谱：M = 30</h2></div>
+  <div class="stage">
+    <div class="plot">
+      <div class="plot-bar">
+        <span class="plot-title">未知物乙 · EI</span>
+        <button type="button" class="toggle" id="zoomB" aria-pressed="false">放大弱峰 ×10</button>
+      </div>
+      <div class="spec" id="specB"></div>
+      <div class="chips" id="chipsB" aria-label="选峰"></div>
+    </div>
+    <aside class="panel" id="panelB" aria-live="polite"></aside>
+  </div>
+  <div class="cards">
+    <div class="card">
+      <h3>数碳，然后发现多了一点</h3>
+      <div class="eq"><span class="frac"><span>1.3 × 100%</span><span>89 × 1.1%</span></span> ≈ 1.3 → 1 个碳</div>
+      <p>碳数只能是整数，1.3 取 1。可是比 1 多出的三成不能当作误差放过去：一个碳、两个氢、一个氧合起来，M+1 只该有 1.1% + 0.03% + 0.04% ≈ 1.17%，也就是 89 × 1.17% ≈ 1.04，实测却是 1.3。</p>
+    </div>
+    <div class="card">
+      <h3>多出来的是"自化学电离"</h3>
+      <p>离子源里样品压力稍高时，刚生成的分子离子会撞上还没电离的中性分子，从它那里抢一个氢：</p>
+      <div class="eq"><span data-f>CH2O^+•</span> ＋ <span data-f>CH2O</span> → <span data-f>CH2OH^+</span> ＋ HCO•</div>
+      <p>产物是质子化的分子 [M+H]<sup>+</sup>，质量也是 31，和 <sup>13</sup>C 同位素峰叠在一起。这叫自化学电离（self-CI）。醛、醇、胺、醚这类容易接质子的分子常见，M+1 偏高时要先想到它，别急着多算一个碳。</p>
+    </div>
+    <div class="card">
+      <h3>M+2 把氧指出来</h3>
+      <p>30 − 12 = 18，可以是 2 个 H 加 1 个 O。验证：<sup>18</sup>O 的丰度约 0.20%，含一个氧时 M+2 应为 89 × 0.20% ≈ 0.18，实测 0.21，对得上。</p>
+      <p>碎片也只掉氢：29 是 <span data-f>HCO^+</span>，28 是 <span data-f>CO^+•</span>。答案：<strong class="red"><span data-f>CH2O</span>，甲醛</strong>。</p>
+    </div>
+  </div>
+</section>
+
+<section aria-labelledby="h-rule">
+  <div class="head"><span class="seal" aria-hidden="true">辨</span><h2 id="h-rule">同样的整数质量，怎么排除别的候选</h2></div>
+  <div class="two">
+    <div>
+      <h3>质量 34 的候选</h3>
+      <div class="tbl-wrap"><table>
+        <thead><tr><th>分子</th><th>碳数</th><th>M+1 / M</th><th>M+2 / M</th><th>结论</th></tr></thead>
+        <tbody>
+          <tr><td data-f>CH3F</td><td>1</td><td>约 1.1%</td><td>几乎没有</td><td class="red">相符</td></tr>
+          <tr><td data-f>H2S</td><td>0</td><td>约 0.8%</td><td>约 4.5%（<sup>34</sup>S）</td><td>没有那么高的 36</td></tr>
+          <tr><td data-f>PH3</td><td>0</td><td>约 0.05%</td><td>几乎没有</td><td>M+1 太小</td></tr>
+        </tbody>
+      </table></div>
+    </div>
+    <div>
+      <h3>质量 30 的候选</h3>
+      <div class="tbl-wrap"><table>
+        <thead><tr><th>分子</th><th>碳数</th><th>M+1 / M</th><th>M+2 / M</th><th>结论</th></tr></thead>
+        <tbody>
+          <tr><td data-f>CH2O</td><td>1</td><td>约 1.2%</td><td>约 0.2%</td><td class="red">相符</td></tr>
+          <tr><td data-f>C2H6</td><td>2</td><td>约 2.2%</td><td>约 0.01%</td><td>M+1 太大，且会丢 15</td></tr>
+          <tr><td>NO</td><td>0</td><td>约 0.4%</td><td>约 0.2%</td><td>M+1 太小，无 29、28</td></tr>
+        </tbody>
+      </table></div>
+    </div>
+  </div>
+  <p class="hint">表中比值按天然同位素丰度估算：<sup>13</sup>C 1.1%，<sup>2</sup>H 0.015%，<sup>15</sup>N 0.37%，<sup>17</sup>O 0.04%，<sup>18</sup>O 0.20%，<sup>33</sup>S 0.8%，<sup>34</sup>S 4.5%（均相对最轻同位素）。</p>
+</section>
+
+<footer>
+  <p>峰表数值抄自课件"Now the opposite!"一页。离子归属、候选对比和自化学电离的反应式是按峰表推出来的讲解，不是课件原文。</p>
+</footer>
+</div>
+
+<script src="../../assets/spectrum.js"></script>
+<script>
+InkSpectrum.carbonCalc('#calc', { m: 95, m1: 1.1 });
+
+InkSpectrum.mount({
+  el: '#specA', panel: '#panelA', chips: '#chipsA', zoom: '#zoomA',
+  title: '氟甲烷的电子轰击质谱', range: [10, 38], tick: 5, minor: 1, start: 35, height: 420,
+  peaks: [
+    { mz: 14, I: 17, lab: 1, ion: '[CH2]^+•', note: '甲基正离子再掉一个氢。' },
+    { mz: 15, I: 100, lab: 1, ion: '[CH3]^+', name: '甲基正离子 · 基峰', note: 'M − 19。34 和 15 之间差 19，没有哪种 C、H 的组合等于 19，只能是氟。' },
+    { mz: 16, I: 1.1, lab: 1, dx: 4, ion: '[{13}CH3]^+', name: '基峰的同位素峰', note: '强度恰是基峰的 1.1%：这个碎片只有一个碳。和 M+1 给出的结论互相印证。' },
+    { mz: 19, I: 2.0, lab: 1, ion: '[F]^+', note: '氟自己带电。氟的电离能很高，所以电荷多半留在甲基一侧，这根峰很矮。' },
+    { mz: 20, I: 0.4, chip: 1, ion: '[HF]^+•', note: '重排后以 HF 形式带电，量很少。' },
+    { mz: 31, I: 10, lab: 1, ion: '[CF]^+', name: 'M − 3H', note: '三个氢全掉光，只剩 C 和 F。从 34 到 31 正好三级台阶，说明分子里有三个氢。' },
+    { mz: 32, I: 9.3, lab: 1, ion: '[CHF]^+•', name: 'M − 2H' },
+    { mz: 33, I: 89, lab: 1, ion: '[CH2F]^+', name: 'M − H', note: '丢一个氢原子。和 M 几乎一样高，别把它当成分子离子：分子离子是这一簇里质量最大的强峰。' },
+    { mz: 34, I: 95, lab: 1, ion: '[CH3F]^+•', name: '分子离子 M⁺•', note: '12 + 3 + 19 = 34。偶数质量，按氮规则不含氮（或含偶数个氮）。' },
+    { mz: 35, I: 1.1, lab: 1, ion: '[{13}CH3F]^+•', name: 'M+1 同位素峰', note: '1.1 ÷ 95 = 1.16%，除以每个碳的 1.1%，得 1.05：一个碳。点"放大弱峰"才看得清它。' },
+  ],
+  links: [
+    { from: 34, to: 35, loss: '¹³C 替 ¹²C  +1', note: '不是碎裂：同一种分子里碰巧有一个 ¹³C。' },
+    { from: 34, to: 33, loss: '−H• 1' },
+    { from: 34, to: 32, loss: '−2H 2' },
+    { from: 34, to: 31, loss: '−3H 3' },
+    { from: 34, to: 15, loss: '−F• 19', note: '断 C–F 键，电荷留在碳上。' },
+    { from: 34, to: 19, loss: '−CH3• 15', note: '同一根键断开，电荷留在氟上。' },
+    { from: 34, to: 20, loss: '−CH2 14' },
+    { from: 15, to: 14, loss: '−H• 1' },
+    { from: 15, to: 16, loss: '¹³C  +1' },
+  ],
+});
+
+InkSpectrum.mount({
+  el: '#specB', panel: '#panelB', chips: '#chipsB', zoom: '#zoomB',
+  title: '甲醛的电子轰击质谱', range: [10, 34], tick: 5, minor: 1, start: 31, height: 420,
+  peaks: [
+    { mz: 12, I: 3.3, lab: 1, ion: '[C]^+' },
+    { mz: 13, I: 4.3, lab: 1, ion: '[CH]^+' },
+    { mz: 14, I: 4.4, lab: 1, ion: '[CH2]^+•', note: 'M − 16：丢掉氧，剩下亚甲基。' },
+    { mz: 15, I: 0.07, chip: 1, ion: '[{13}CH2]^+•', note: '14 的同位素峰：4.4 × 1.1% ≈ 0.05，和实测 0.07 同一量级。这里没有真正的 CH₃⁺，说明分子里没有甲基。' },
+    { mz: 28, I: 31, lab: 1, ion: '[CO]^+•', name: 'M − 2H', note: '两个氢都掉了，剩下一氧化碳正离子。' },
+    { mz: 29, I: 100, lab: 1, ion: '[HCO]^+', name: '甲酰正离子 · 基峰', note: 'M − 1。醛基碳上的氢很容易丢，留下的酰基正离子由氧的孤对电子稳定。醛的谱里 M − 1 往往很显眼。' },
+    { mz: 30, I: 89, lab: 1, ion: '[CH2O]^+•', name: '分子离子 M⁺•', note: '12 + 2 + 16 = 30。' },
+    { mz: 31, I: 1.3, lab: 1, ion: '[{13}CH2O]^+• + [CH2OH]^+', name: 'M+1：同位素峰 ＋ 质子化分子', note: '按同位素只该有约 1.04，实测 1.3。多出的约 0.26 来自自化学电离生成的 [M+H]⁺。' },
+    { mz: 32, I: 0.21, lab: 1, ion: '[CH2{18}O]^+•', name: 'M+2', note: '¹⁸O 丰度约 0.20%：89 × 0.20% ≈ 0.18，实测 0.21。有一个氧。' },
+  ],
+  links: [
+    { from: 30, to: 31, loss: '¹³C，或 +H  +1', note: '两个来源：同位素，以及离子与中性分子碰撞后多带一个氢。' },
+    { from: 30, to: 32, loss: '¹⁸O 替 ¹⁶O  +2' },
+    { from: 30, to: 29, loss: '−H• 1' },
+    { from: 30, to: 28, loss: '−2H 2' },
+    { from: 30, to: 14, loss: '−O 16' },
+    { from: 14, to: 13, loss: '−H• 1' },
+    { from: 13, to: 12, loss: '−H• 1' },
+  ],
+});
+InkSpectrum.decorate();
+</script>
+</body>
+</html>

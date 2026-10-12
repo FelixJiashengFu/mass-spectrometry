@@ -1,0 +1,192 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="水墨风格讲解：二苯甲酮的电子轰击质谱。从 182 → 105 → 77 → 51 的碎裂链、同位素峰数碳，到半整数 m/z 处的双电荷离子。">
+<title>二苯甲酮：四根峰一条链 · 质谱专题库</title>
+<link rel="stylesheet" href="../../assets/ink.css">
+</head>
+<body>
+<div class="scroll">
+
+<header class="top">
+  <div class="crumbs"><a href="../../index.html">质谱专题库</a><span>／</span><span>碎裂 · 其四</span></div>
+  <div class="eyebrow">MASS SPECTROMETRY · 芳香酮</div>
+  <h1>四根峰，一条链</h1>
+  <p class="lede">课件问：对这张谱有什么想法？整张谱只有四根像样的峰：182、105、77、51。它们首尾相接，把结构一段一段交代清楚了。</p>
+</header>
+
+<section aria-labelledby="h-fig">
+  <div class="head"><span class="seal" aria-hidden="true">观</span><h2 id="h-fig">顺着最高的四根峰往下走</h2></div>
+  <div class="stage">
+    <div class="plot">
+      <div class="plot-bar">
+        <span class="plot-title">二苯甲酮 <span data-f>C13H10O</span> · M<sub>r</sub> = 182 · EI</span>
+        <button type="button" class="toggle" id="zoom" aria-pressed="false">放大弱峰 ×10</button>
+      </div>
+      <div class="spec" id="spec"></div>
+      <div class="chips" id="chips" aria-label="选峰"></div>
+      <p class="hint">放大后能看到 150 附近的一小簇，以及 75.5、76.5 这两根落在半整数上的峰。</p>
+    </div>
+    <aside class="panel" id="panel" aria-live="polite"></aside>
+  </div>
+  <details>
+    <summary>完整峰表（点 m/z 可在谱中选中）</summary>
+    <div class="peak-table" id="table"></div>
+  </details>
+</section>
+
+<section aria-labelledby="h-guess">
+  <div class="head"><span class="seal" aria-hidden="true">猜</span><h2 id="h-guess">假如不知道答案，怎么猜出来</h2></div>
+  <div class="two">
+    <div>
+      <ol class="steps">
+        <li><span><strong>分子离子是 182，而且很强（60）。</strong>分子离子经得住电子轰击，多半是芳香体系。质量是偶数，按氮规则不含氮或含偶数个氮。</span></li>
+        <li><span><strong>数碳：13 个。</strong>183 / 182 = 8.5 / 60 = 14.2%，除以 1.1% 得 12.9。</span></li>
+        <li><span><strong>凑分子式。</strong>13 个碳占 156，还剩 26。最顺的拆法是 10 个 H 加 1 个 O：<span data-f>C13H10O</span>。</span></li>
+        <li><span><strong>算不饱和度。</strong>(2 × 13 + 2 − 10) ÷ 2 = 9。两个苯环各占 4，还剩 1，留给一个 C=O。</span></li>
+        <li><span><strong>看碎片验证。</strong>182 − 105 = 77 是苯基；105 − 77 = 28 是 CO；77 − 51 = 26 是乙炔。于是：苯基–羰基–苯基。</span></li>
+      </ol>
+      <div id="calc"></div>
+      <p class="hint">更细一点：181 自己的 <sup>13</sup>C 峰也落在 182 上（约 8.2 × 14% ≈ 1.2），扣掉后比值略升，算出约 13.1，仍然是 13。</p>
+    </div>
+    <div>
+      <h3>断在羰基旁边：α-断裂</h3>
+      <div class="mol">
+        <svg viewBox="0 0 240 130" role="img" aria-label="二苯甲酮结构，羰基碳与右侧苯环之间的键被切断，左边 105，右边 77">
+          <polygon class="bond" points="52,54 74.5,67 74.5,93 52,106 29.500,93 29.500,67"/>
+          <circle class="bond" cx="52" cy="80" r="15" style="stroke-width:1.5"/>
+          <polygon class="bond" points="188,54 210.500,67 210.500,93 188,106 165.500,93 165.500,67"/>
+          <circle class="bond" cx="188" cy="80" r="15" style="stroke-width:1.5"/>
+          <path class="bond" d="M74.5 67 L120 44 L165.500 67"/>
+          <path class="bond" d="M116.500 44 L116.500 20 M123.500 44 L123.500 20"/>
+          <text x="120" y="14" text-anchor="middle">O</text>
+          <path class="cut" d="M146 36 q5 6 0 12 t0 12 t0 12"/>
+          <text class="c" x="70" y="126" text-anchor="middle">105 苯甲酰正离子</text>
+          <text class="c" x="192" y="126" text-anchor="middle">77 苯基</text>
+        </svg>
+      </div>
+      <p>酮最常见的碎裂是断羰基碳旁边的键。留下的 <span data-f>C6H5CO^+</span> 是酰基正离子，氧的孤对电子可以补进来形成 C≡O<sup>+</sup>，很稳，所以成了基峰。</p>
+      <p>分子两边一模一样，从哪边断都得到 105，这也是谱图如此干净的原因。若两边不同（比如苯乙酮），就会有两种 α-断裂产物。</p>
+    </div>
+  </div>
+</section>
+
+<section aria-labelledby="h-chain">
+  <div class="head"><span class="seal" aria-hidden="true">径</span><h2 id="h-chain">主链和两条小路</h2></div>
+  <div class="flows">
+    <div class="flow"><span class="tag">主链</span>
+      <button class="node" data-sel="182">182<small data-f>C13H10O^+•</small></button><span class="arrow" data-f>−C6H5• 77</span>
+      <button class="node" data-sel="105">105<small data-f>C6H5CO^+</small></button><span class="arrow">−CO 28</span>
+      <button class="node" data-sel="77">77<small data-f>C6H5^+</small></button><span class="arrow" data-f>−C2H2 26</span>
+      <button class="node" data-sel="51">51<small data-f>C4H3^+</small></button></div>
+    <div class="flow"><span class="tag">挤出 CO</span>
+      <button class="node" data-sel="182">182</button><span class="arrow">−CO 28</span>
+      <button class="node" data-sel="154">154<small data-f>C12H10^+•</small></button><span class="arrow" data-f>−H2 2</span>
+      <button class="node" data-sel="152">152<small data-f>C12H8^+•</small></button></div>
+    <div class="flow"><span class="tag">丢一个氢</span>
+      <button class="node" data-sel="182">182</button><span class="arrow" data-f>−H• 1</span>
+      <button class="node" data-sel="181">181<small data-f>C13H9O^+</small></button></div>
+  </div>
+</section>
+
+<section aria-labelledby="h-detail">
+  <div class="head"><span class="seal" aria-hidden="true">细</span><h2 id="h-detail">小峰里的两条信息</h2></div>
+  <div class="cards">
+    <div class="card">
+      <h3>每个碎片的碳数都能核对</h3>
+      <div class="tbl-wrap"><table>
+        <thead><tr><th>峰对</th><th class="r">比值</th><th class="r">÷ 1.1%</th><th>归属的碳数</th></tr></thead>
+        <tbody>
+          <tr><td>183 / 182</td><td class="r">8.5 / 60 = 14.2%</td><td class="r">12.9</td><td>13 ✓</td></tr>
+          <tr><td>106 / 105</td><td class="r">7.8 / 100 = 7.8%</td><td class="r">7.1</td><td>7 ✓</td></tr>
+          <tr><td>78 / 77</td><td class="r">4.2 / 62 = 6.8%</td><td class="r">6.2</td><td>6 ✓</td></tr>
+        </tbody>
+      </table></div>
+      <p>同位素峰不只在分子离子上有用。每根强峰右边那根小峰，都在说这个碎片有几个碳，可以拿来检验归属对不对。</p>
+    </div>
+    <div class="card">
+      <h3>半整数的峰是带两个电荷的离子</h3>
+      <p>质谱仪量的是质荷比 m/z，不是质量。带两个正电荷时，峰出现在质量的一半处；质量是奇数，就落在半整数上。</p>
+      <div class="eq">75.5 × 2 ＝ 151　　76.5 × 2 ＝ 153</div>
+      <p>所以 75.5 和 76.5 分别是质量 151 和 153 的离子带了两个电荷。它们的同位素峰会相隔 0.5 而不是 1。大的共轭芳香体系能把两个正电荷分散开，才容得下双电荷离子，这本身也是"有大芳香骨架"的一条线索。</p>
+    </div>
+    <div class="card">
+      <h3>152 那一小簇：两个环并到了一起</h3>
+      <p>分子离子把中间的 CO 整个挤出去，两个苯环直接相连，得到联苯型的 <span data-f>C12H10^+•</span>（154）；再掉氢，成为 153 和更稳的 152（<span data-f>C12H8^+•</span>）。</p>
+      <p>这类"丢掉中间、两头接上"的重排强度很低，却常见于二芳基酮、二芳基醚和二芳基砜。看到 M − 28 而分子里又没有乙基，要想到 CO。</p>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p>峰表数值抄自课件"Any ideas for this spectrum?"一页，结构（二苯甲酮）由课件给出。碎片归属、推断步骤和双电荷离子的解释是按峰表写的讲解，不是课件原文。</p>
+</footer>
+</div>
+
+<script src="../../assets/spectrum.js"></script>
+<script>
+InkSpectrum.carbonCalc('#calc', { m: 60, m1: 8.5 });
+InkSpectrum.mount({
+  el: '#spec', panel: '#panel', chips: '#chips', table: '#table', zoom: '#zoom',
+  title: '二苯甲酮的电子轰击质谱', range: [20, 190], minor: 5, start: 105,
+  peaks: [
+    { mz: 27, I: 1.3, ion: '[C2H3]^+' },
+    { mz: 28, I: 1.0, ion: '[CO]^+•', note: '也可能混有仪器本底的 N₂。' },
+    { mz: 38, I: 0.4, ion: '[C3H2]^+•' },
+    { mz: 39, I: 1.1, ion: '[C3H3]^+' },
+    { mz: 50, I: 6.2, ion: '[C4H2]^+•', note: '51 再掉一个氢。' },
+    { mz: 51, I: 19, lab: 1, ion: '[C4H3]^+', note: '苯基正离子丢一分子乙炔。77 和 51 结伴出现，是苯环的标志。' },
+    { mz: 52, I: 1.4, ion: '[C4H4]^+•' },
+    { mz: 53, I: 0.3 },
+    { mz: 63, I: 1.3, ion: '[C5H3]^+' },
+    { mz: 64, I: 0.6, ion: '[C5H4]^+•' },
+    { mz: 74, I: 2.0, ion: '[C6H2]^+•' },
+    { mz: 75, I: 1.7, ion: '[C6H3]^+' },
+    { mz: 75.5, I: 0.2, chip: 1, ion: '[C12H7]^2+', name: '双电荷离子', note: '质量 151、电荷 2，所以 m/z = 75.5。只有带两个电荷的奇数质量离子才会落在半整数上。' },
+    { mz: 76, I: 4.3, ion: '[C6H4]^+•', name: '苯炔正离子', note: '77 再掉一个氢。质量 152 的双电荷离子（152 ÷ 2 = 76）也会叠在这里，整数位置上分不出来。' },
+    { mz: 76.5, I: 0.3, chip: 1, ion: '[C12H9]^2+', name: '双电荷离子', note: '质量 153、电荷 2，m/z = 76.5。' },
+    { mz: 77, I: 62, lab: 1, ion: '[C6H5]^+', name: '苯基正离子', note: '105 − 28。酰基正离子丢掉一分子 CO。差 28 在这里是 CO 而不是乙烯：分子里没有乙基，而且前一步刚露出了羰基。' },
+    { mz: 78, I: 4.2, ion: '[{13}CC5H5]^+', name: '77 的同位素峰', note: '62 × 6 × 1.1% ≈ 4.1，实测 4.2：六个碳。' },
+    { mz: 79, I: 0.1 },
+    { mz: 91, I: 0.1, chip: 1, ion: '[C13H10O]^2+', name: '可能是双电荷的分子离子', note: '182 ÷ 2 = 91。二苯甲酮没有苄基，这里不该有 C₇H₇⁺；这点信号更可能是带两个电荷的分子离子。强度只有 0.1，仅作推测。' },
+    { mz: 104, I: 0.5 },
+    { mz: 105, I: 100, lab: 1, ion: '[C6H5CO]^+', name: '苯甲酰正离子 · 基峰', note: 'M − 77。α-断裂：羰基碳与一个苯环之间的键断开，丢苯基自由基。看到 105 接着 77，基本可以认定有 Ph–C(=O)– 这一段。' },
+    { mz: 106, I: 7.8, lab: 1, dx: 15, ion: '[{13}CC6H5O]^+', name: '105 的同位素峰', note: '7 × 1.1% = 7.7%，实测 7.8：七个碳。' },
+    { mz: 107, I: 0.5, note: '105 的 M+2：一个 ¹⁸O（0.2%）加上两个 ¹³C（约 0.25%）。' },
+    { mz: 119, I: 0.02 },
+    { mz: 126, I: 0.6 },
+    { mz: 127, I: 0.4 },
+    { mz: 128, I: 0.13 },
+    { mz: 139, I: 0.2 },
+    { mz: 151, I: 1.1, ion: '[C12H7]^+' },
+    { mz: 152, I: 3.4, lab: 1, ion: '[C12H8]^+•', name: '联苯烯型离子', note: 'M − CO − H₂。两个苯环并在一起后再脱氢，形成更大的共轭体系。' },
+    { mz: 153, I: 1.8, ion: '[C12H9]^+' },
+    { mz: 154, I: 1.4, chip: 1, ion: '[C12H10]^+•', name: 'M − CO', note: '把中间的羰基整个挤出，两个苯环直接相连，相当于联苯的分子离子。' },
+    { mz: 155, I: 0.16 },
+    { mz: 164, I: 0.06 },
+    { mz: 165, I: 0.44, chip: 1, ion: '[C13H9]^+', name: '一般归为芴基正离子', note: 'M − 17（丢 OH）。需要先发生氢转移和关环，强度很低。' },
+    { mz: 166, I: 0.06 },
+    { mz: 181, I: 8.2, lab: 1, dx: -15, ion: '[C13H9O]^+', name: 'M − H', note: '丢一个环上的氢。一般认为同时关环，成为三环的芴酮型离子。' },
+    { mz: 182, I: 60, lab: 1, ion: '[C13H10O]^+•', name: '分子离子 M⁺•', note: '两个苯环和羰基连成一个大共轭体系，能很好地容纳正电荷和单电子，所以分子离子峰很强。' },
+    { mz: 183, I: 8.5, lab: 1, dx: 15, ion: '[{13}CC12H10O]^+•', name: 'M+1 同位素峰', note: '8.5 ÷ 60 = 14.2%，除以 1.1% 得 12.9：十三个碳。' },
+    { mz: 184, I: 0.61, ion: '', name: 'M+2', note: '两个 ¹³C（约 1.0%）加一个 ¹⁸O（0.2%），预期约 60 × 1.2% ≈ 0.7，实测 0.61。' },
+  ],
+  links: [
+    { from: 182, to: 105, loss: '−C6H5• 77', note: 'α-断裂，丢苯基自由基。' },
+    { from: 105, to: 77, loss: '−CO 28', note: '酰基正离子脱羰。' },
+    { from: 77, to: 51, loss: '−C2H2 26', note: '苯基正离子丢乙炔。' },
+    { from: 182, to: 181, loss: '−H• 1' },
+    { from: 182, to: 154, loss: '−CO 28', note: '挤出 CO，两环相连。' },
+    { from: 154, to: 152, loss: '−H2 2' },
+    { from: 182, to: 165, loss: '−OH• 17' },
+    { from: 182, to: 183, loss: '¹³C  +1', note: '不是碎裂：十三个碳里有一个是 ¹³C。' },
+    { from: 105, to: 106, loss: '¹³C  +1' },
+    { from: 51, to: 50, loss: '−H• 1' },
+  ],
+});
+InkSpectrum.decorate();
+</script>
+</body>
+</html>
