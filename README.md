@@ -21,19 +21,23 @@
 mass-spectrometry/
 ├── index.html            # 全部专题的分类入口
 ├── assets/
-│   ├── ink.css           # 水墨样式（纸色、朱印、宽屏栅格，跟随系统深浅色）
+│   ├── ink.css           # 水墨样式源文件（纸色、朱印、宽屏栅格，跟随系统深浅色）
 │   └── spectrum.js       # 棒图、选峰题跋、丢失弧线、弱峰放大、碳数小算盘；无依赖
+├── tools/
+│   └── inline.py         # 把 assets/ 内嵌进各页
 └── topics/
     └── <slug>/
-        ├── index.html    # 专题页：文字 + 峰表数据
+        ├── index.html    # 专题页：单文件，样式和脚本已内嵌
         └── README.md     # 数据来源、哪些是推断
 ```
 
-和另外两个库不同的一点：四个专题共用 `assets/` 里的样式和脚本，所以专题页不是单文件，要连同 `assets/` 一起打开。直接双击 `index.html` 即可，不需要服务器；字体从 Google Fonts 加载，断网时退回系统字体。
+每个专题页都是可以独立打开的单文件网页：`assets/` 里的样式和脚本已经内嵌进各页，单独下载一个 `index.html` 双击即可，不需要服务器。字体从 Google Fonts 加载，断网时退回系统字体。
+
+`assets/` 是样式和脚本的源文件。改动之后运行 `python3 tools/inline.py`，把新内容重新嵌进所有页面。
 
 ## 新增专题
 
-1. 在 `topics/` 下建一个全小写的目录，复制任一专题的 `index.html` 作模板。
+1. 在 `topics/` 下建一个全小写的目录，复制任一专题的 `index.html` 作模板（内嵌的样式和脚本不用动）。
 2. 把峰表写进 `InkSpectrum.mount({ peaks, links })`：`peaks` 里每项是 `{ mz, I, ion, name, note, lab }`，`links` 里每项是 `{ from, to, loss, note }`。化学式写成 `'[C7H7]^+'`，脚本会排上下标。
 3. 在专题 `README.md` 写明数据来源，分清哪些是原始数据、哪些是推断。
 4. 在根目录 `index.html` 和上面的表里加上入口，更新数量。

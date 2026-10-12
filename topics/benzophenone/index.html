@@ -5,7 +5,259 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="description" content="水墨风格讲解：二苯甲酮的电子轰击质谱。从 182 → 105 → 77 → 51 的碎裂链、同位素峰数碳，到半整数 m/z 处的双电荷离子。">
 <title>二苯甲酮：四根峰一条链 · 质谱专题库</title>
-<link rel="stylesheet" href="../../assets/ink.css">
+<style data-inline="ink.css">
+@import url("https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&family=Noto+Serif+SC:wght@400;600;900&display=swap");
+
+/* 布局：横幅长卷。宽屏下谱图居左为主景，题跋（峰的解读）居右；窄屏退成单栏。 */
+:root {
+  --paper: #ecebe3;
+  --paper-deep: #e1dfd4;
+  --ink: #1b1c1a;
+  --ink-soft: #4c4e4a;
+  --ink-pale: #8b8d86;
+  --wash: rgba(27, 28, 26, .09);
+  --line: rgba(27, 28, 26, .22);
+  --cinnabar: #ad3324;
+  --seal-text: #f3ece0;
+  --brush: "Ma Shan Zheng", "STKaiti", "KaiTi", "Kaiti SC", serif;
+  --serif: "Noto Serif SC", "Songti SC", "STSong", "SimSun", serif;
+  --math: "STIX Two Math", "Cambria Math", "Latin Modern Math", "Times New Roman", serif;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --paper: #141615; --paper-deep: #1c1f1d; --ink: #dddcd2;
+    --ink-soft: #b1b1a7; --ink-pale: #7d7f78; --wash: rgba(221, 220, 210, .08);
+    --line: rgba(221, 220, 210, .24); --cinnabar: #d9583f;
+    --seal-text: #1a1412; color-scheme: dark;
+  }
+}
+
+* { box-sizing: border-box; }
+[hidden] { display: none !important; }
+body {
+  margin: 0;
+  background:
+    radial-gradient(ellipse 60% 36rem at 88% -6rem, var(--wash), transparent 70%),
+    radial-gradient(ellipse 40% 30rem at 0% 26rem, var(--wash), transparent 70%),
+    var(--paper);
+  color: var(--ink);
+  font: 17px/1.9 var(--serif);
+}
+.scroll {
+  max-width: 1480px;
+  margin-inline: auto;
+  padding-inline: clamp(16px, 4vw, 64px);
+  padding-block: clamp(1.6rem, 4vw, 3.2rem) 5rem;
+  display: flex; flex-direction: column;
+  gap: clamp(2.6rem, 5vw, 4.2rem);
+}
+section, header { display: flex; flex-direction: column; gap: 1.15rem; min-width: 0; }
+p { margin: 0; max-width: 44em; }
+a { color: var(--cinnabar); }
+sub, sup { font-size: .68em; line-height: 0; font-family: var(--math); }
+.chem { font-family: var(--math); white-space: nowrap; }
+strong { font-weight: 600; }
+.red { color: var(--cinnabar); }
+.num { font-variant-numeric: tabular-nums; }
+
+/* 卷首 */
+header.top { position: relative; padding-bottom: 1.4rem; border-bottom: 1px solid var(--line); }
+header.top > * { position: relative; z-index: 1; }
+header.top > svg.hills {
+  position: absolute; z-index: 0; right: 0; bottom: 0;
+  width: min(52%, 640px); height: auto; pointer-events: none;
+}
+.hills .far { fill: var(--ink); opacity: .08; }
+.hills .near { fill: var(--ink); opacity: .14; }
+.hills .sun { fill: var(--cinnabar); opacity: .85; }
+.crumbs { font-size: .84rem; color: var(--ink-pale); display: flex; gap: .6rem; flex-wrap: wrap; }
+.crumbs a { color: var(--ink-soft); text-decoration: none; border-bottom: 1px solid var(--line); }
+.crumbs a:hover { color: var(--cinnabar); }
+.eyebrow { font-size: .82rem; letter-spacing: .32em; color: var(--ink-pale); }
+h1 {
+  font-family: var(--brush); font-weight: 400;
+  font-size: clamp(2.6rem, 6vw, 4.8rem); line-height: 1.12;
+  margin: 0; letter-spacing: .02em; text-wrap: balance;
+}
+.lede { font-size: 1.08rem; color: var(--ink-soft); max-width: 40em; }
+
+/* 章节题签：朱印 + 行楷 */
+.head { display: flex; align-items: center; gap: .9rem; }
+.seal {
+  flex: none; width: 2.5rem; height: 2.5rem;
+  display: grid; place-items: center;
+  background: var(--cinnabar); color: var(--seal-text);
+  font-family: var(--brush); font-size: 1.65rem; line-height: 1;
+  border-radius: 5px 3px 6px 3px; transform: rotate(-3deg);
+}
+h2 { font-family: var(--brush); font-weight: 400; font-size: clamp(1.7rem, 3vw, 2.3rem); line-height: 1.25; margin: 0; }
+h3 { font-size: 1.02rem; font-weight: 600; margin: 0; letter-spacing: .06em; }
+h4 { font-size: .78rem; font-weight: 400; letter-spacing: .2em; color: var(--ink-pale); margin: .5rem 0 0; }
+
+/* 主景：谱图 + 题跋 */
+.stage {
+  display: grid;
+  grid-template-columns: minmax(0, 1.75fr) minmax(300px, 1fr);
+  gap: 1.2rem clamp(1.5rem, 3vw, 3rem);
+  align-items: start;
+}
+.plot { display: flex; flex-direction: column; gap: .7rem; min-width: 0; }
+.plot-bar { display: flex; flex-wrap: wrap; gap: .5rem 1rem; align-items: center; justify-content: space-between; }
+.plot-title { font-size: .9rem; color: var(--ink-soft); }
+.spec svg { display: block; width: 100%; height: auto; overflow: visible; }
+.spec text { font-family: var(--serif); fill: var(--ink-soft); font-size: 13px; font-variant-numeric: tabular-nums; }
+.spec .axis { stroke: var(--ink); stroke-width: 2.4; stroke-linecap: round; fill: none; }
+.spec .tick { stroke: var(--ink-soft); stroke-width: 1; }
+.spec .grid { stroke: var(--line); stroke-width: 1; stroke-dasharray: 2 6; }
+.spec .axis-name { fill: var(--ink-pale); font-size: 12px; letter-spacing: .12em; }
+.spec .stick { fill: var(--ink); }
+.spec .stick.clipped { opacity: .5; }
+.spec .stick.on { fill: var(--cinnabar); opacity: 1; }
+.spec .stick.kin { fill: var(--ink); }
+.spec .ghost { stroke: var(--ink-pale); stroke-width: 1.6; stroke-dasharray: 4 5; fill: none; }
+.spec .ghost.on { stroke: var(--cinnabar); }
+.spec .bleed { fill: var(--ink); opacity: .13; }
+.spec .halo { fill: var(--cinnabar); opacity: .2; }
+.spec .lab { fill: var(--ink); font-size: 14px; font-weight: 600; text-anchor: middle; }
+.spec .lab.on { fill: var(--cinnabar); }
+.spec .hov { fill: var(--ink); font-size: 12.5px; text-anchor: middle; paint-order: stroke; stroke: var(--paper); stroke-width: 5px; stroke-linejoin: round; }
+.spec .arc { fill: none; stroke-width: 1.5; stroke-linecap: round; }
+.spec .arc.in { stroke: var(--cinnabar); }
+.spec .arc.out { stroke: var(--ink-soft); stroke-dasharray: 5 5; }
+.spec .arc-t { font-family: var(--math); font-size: 14px; text-anchor: middle; paint-order: stroke; stroke: var(--paper); stroke-width: 5px; stroke-linejoin: round; }
+.spec .arc-t.in { fill: var(--cinnabar); }
+.spec .arc-t.out { fill: var(--ink-soft); }
+.spec .mk-in { fill: var(--cinnabar); }
+.spec .mk-out { fill: var(--ink-soft); }
+.spec .hit { fill: transparent; cursor: pointer; }
+
+.chips { display: flex; flex-wrap: wrap; gap: .4rem; }
+.chips button, .toggle, .node {
+  font: inherit; font-size: .9rem; line-height: 1.2; font-variant-numeric: tabular-nums;
+  color: var(--ink); background: transparent;
+  border: 1px solid var(--line); border-radius: 999px;
+  padding: .36rem .8rem; cursor: pointer;
+}
+.chips button:hover, .toggle:hover, .node:hover { border-color: var(--ink); }
+.chips button[aria-pressed="true"], .toggle[aria-pressed="true"] { background: var(--ink); color: var(--paper); border-color: var(--ink); }
+button:focus-visible, input:focus-visible, a:focus-visible { outline: 2px solid var(--cinnabar); outline-offset: 3px; }
+.hint { font-size: .84rem; color: var(--ink-pale); }
+
+/* 题跋：选中峰的解读 */
+.panel {
+  display: flex; flex-direction: column; gap: .55rem;
+  border-left: 2px solid var(--ink);
+  padding: .3rem 0 .6rem 1.4rem;
+  min-height: 22rem;
+}
+.p-mz { display: flex; align-items: baseline; gap: .6rem; flex-wrap: wrap; }
+.p-mz b { font-family: var(--brush); font-weight: 400; font-size: 4.2rem; line-height: 1; color: var(--cinnabar); }
+.p-mz span { font-size: .84rem; color: var(--ink-pale); letter-spacing: .1em; }
+.p-ion { font-family: var(--math); font-size: 1.7rem; line-height: 1.3; }
+.p-name { color: var(--ink-soft); font-weight: 600; }
+.panel p { font-size: .96rem; max-width: none; }
+.p-links { display: flex; flex-direction: column; gap: .45rem; }
+.p-links div { display: flex; flex-direction: column; gap: .15rem; }
+.p-links button {
+  align-self: flex-start; font: inherit; font-size: .92rem; color: var(--ink);
+  background: var(--wash); border: 0; border-radius: 4px; padding: .2rem .6rem; cursor: pointer;
+  font-variant-numeric: tabular-nums;
+}
+.p-links button:hover { color: var(--cinnabar); }
+.p-links button em { font-style: normal; color: var(--cinnabar); margin-left: .5em; }
+.p-links small { font-size: .86rem; color: var(--ink-soft); line-height: 1.7; }
+
+/* 卡片栅格 */
+.cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.8rem clamp(1.5rem, 3vw, 3rem); }
+.card { display: flex; flex-direction: column; gap: .6rem; border-top: 2px solid var(--ink); padding-top: .9rem; min-width: 0; }
+.card p, .card li { font-size: .96rem; }
+.card ul { margin: 0; padding-left: 1.2em; display: flex; flex-direction: column; gap: .3rem; }
+.two { display: grid; grid-template-columns: repeat(auto-fit, minmax(380px, 1fr)); gap: 1.8rem clamp(1.5rem, 3vw, 3rem); align-items: start; }
+.two > div { display: flex; flex-direction: column; gap: .9rem; min-width: 0; }
+
+.steps { margin: 0; padding: 0; list-style: none; counter-reset: s; display: flex; flex-direction: column; gap: .7rem; max-width: 46em; }
+.steps li { counter-increment: s; display: grid; grid-template-columns: 2.2rem minmax(0, 1fr); gap: .4rem; font-size: .98rem; }
+.steps li::before { content: counter(s, cjk-ideographic); font-family: var(--brush); font-size: 1.5rem; line-height: 1.25; color: var(--cinnabar); }
+
+/* 碎裂路径 */
+.flows { display: flex; flex-direction: column; gap: .9rem; }
+.flow { display: flex; flex-wrap: wrap; align-items: center; gap: .5rem .6rem; }
+.flow .tag { font-size: .84rem; color: var(--ink-pale); width: 7.5em; flex: none; }
+.node { border-radius: 6px 3px 7px 3px; border-color: var(--ink); padding: .3rem .7rem; font-weight: 600; font-size: 1rem; }
+.node small { font-weight: 400; font-size: .78rem; color: var(--ink-soft); margin-left: .45em; font-family: var(--math); }
+.node:hover { color: var(--cinnabar); border-color: var(--cinnabar); }
+.arrow { font-size: .82rem; color: var(--ink-soft); white-space: nowrap; }
+.arrow::after { content: " ⟶"; color: var(--ink-pale); }
+
+/* 式子与表 */
+.eq { font-family: var(--math); font-size: 1.18rem; line-height: 1.5; padding: .5rem 0; overflow-x: auto; white-space: nowrap; }
+.frac { display: inline-flex; flex-direction: column; vertical-align: middle; text-align: center; line-height: 1.35; margin: 0 .2em; }
+.frac > span:first-child { border-bottom: 1px solid currentColor; padding: 0 .4em; }
+.frac > span:last-child { padding: 0 .4em; }
+.boxed {
+  border: 2px solid var(--ink); border-radius: 14px 5px 16px 6px / 6px 15px 5px 14px;
+  padding: .7rem 1.1rem; background: var(--wash); align-self: flex-start; max-width: 100%;
+}
+.tbl-wrap { overflow-x: auto; }
+table { border-collapse: collapse; font-size: .92rem; font-variant-numeric: tabular-nums; }
+th, td { text-align: left; padding: .3rem 1.1rem .3rem 0; border-bottom: 1px solid var(--line); white-space: nowrap; }
+th { font-weight: 400; font-size: .78rem; letter-spacing: .12em; color: var(--ink-pale); }
+td.r, th.r { text-align: right; }
+.peak-table { column-width: 15rem; column-gap: 2.5rem; }
+.peak-table table { width: 100%; break-inside: auto; }
+.peak-table tr { break-inside: avoid; }
+.peak-table td button { font: inherit; color: var(--ink); background: none; border: 0; padding: 0; cursor: pointer; border-bottom: 1px solid var(--line); font-weight: 600; }
+.peak-table td button:hover { color: var(--cinnabar); }
+.peak-table td.ion { font-family: var(--math); color: var(--ink-soft); }
+details summary { cursor: pointer; font-size: .9rem; color: var(--ink-soft); }
+details[open] summary { margin-bottom: .8rem; }
+
+/* 碳数小算盘 */
+.calc { display: flex; flex-wrap: wrap; gap: .8rem 1.4rem; align-items: flex-end; }
+.calc label { display: flex; flex-direction: column; gap: .2rem; font-size: .78rem; letter-spacing: .1em; color: var(--ink-pale); }
+.calc input {
+  font: inherit; font-size: 1.05rem; width: 7rem; color: var(--ink);
+  background: transparent; border: 0; border-bottom: 2px solid var(--ink); padding: .1rem .2rem; border-radius: 0;
+}
+.calc output { font-size: 1.05rem; }
+.calc output b { font-family: var(--brush); font-weight: 400; font-size: 2rem; color: var(--cinnabar); line-height: 1; }
+
+/* 结构小画 */
+.mol svg { display: block; width: 100%; max-width: 21rem; height: auto; }
+.mol .bond { stroke: var(--ink); stroke-width: 2.2; stroke-linecap: round; fill: none; }
+.mol .cut { stroke: var(--cinnabar); stroke-width: 2; stroke-linecap: round; fill: none; }
+.mol text { font-family: var(--serif); font-size: 13px; fill: var(--ink); }
+.mol text.c { fill: var(--cinnabar); font-weight: 600; }
+.formula { font-family: var(--math); font-size: 1.9rem; line-height: 1.4; }
+.formula .cut { color: var(--cinnabar); margin: 0 .12em; }
+
+/* 同位素小柱 */
+.iso { display: flex; gap: 2rem; flex-wrap: wrap; align-items: flex-end; }
+.iso figure { margin: 0; display: flex; flex-direction: column; gap: .3rem; align-items: center; }
+.iso .bars { display: flex; gap: 7px; align-items: flex-end; height: 84px; border-bottom: 2px solid var(--ink); padding: 0 6px; }
+.iso .bars i { width: 7px; background: var(--ink); border-radius: 3px 3px 0 0; }
+.iso figcaption { font-size: .8rem; color: var(--ink-soft); text-align: center; line-height: 1.5; }
+
+footer { font-size: .82rem; color: var(--ink-pale); border-top: 1px solid var(--line); padding-top: 1rem; }
+footer p { max-width: 60em; }
+
+/* 目录页 */
+.topic-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 0 clamp(2rem, 4vw, 4rem); }
+.topic { display: flex; flex-direction: column; gap: .35rem; padding-block: 1.3rem; border-top: 1px solid var(--line); }
+.topic .no { font-family: var(--brush); font-size: 1.5rem; color: var(--cinnabar); line-height: 1; }
+.topic a.title { color: var(--ink); font-size: 1.3rem; font-weight: 600; text-decoration: none; }
+.topic a.title:hover { color: var(--cinnabar); }
+.topic p { color: var(--ink-soft); font-size: .95rem; }
+.topic .meta { font-size: .82rem; color: var(--ink-pale); }
+
+@media (max-width: 980px) {
+  .stage { grid-template-columns: minmax(0, 1fr); }
+  .panel { min-height: 0; }
+  .two { grid-template-columns: minmax(0, 1fr); }
+  header.top > svg.hills { width: 70%; opacity: .7; }
+  .flow .tag { width: 100%; }
+}
+</style>
 </head>
 <body>
 <div class="scroll">
@@ -125,7 +377,286 @@
 </footer>
 </div>
 
-<script src="../../assets/spectrum.js"></script>
+<script data-inline="spectrum.js">
+/* 水墨质谱图：棒图、选峰题跋、丢失弧线、弱峰放大、碳数小算盘。无依赖。 */
+(function () {
+  const NS = 'http://www.w3.org/2000/svg';
+  const registry = {};
+  let uid = 0;
+
+  function svg(tag, attrs, parent) {
+    const e = document.createElementNS(NS, tag);
+    for (const k in attrs) e.setAttribute(k, attrs[k]);
+    if (parent) parent.appendChild(e);
+    return e;
+  }
+
+  // 'C7H7^+' → C<sub>7</sub>H<sub>7</sub><sup>+</sup>；'{13}C' → <sup>13</sup>C
+  function f(s) {
+    return '<span class="chem">' + String(s)
+      .replace(/\{(\d+)\}/g, '<sup>$1</sup>')
+      .replace(/([A-Za-z)\]])(\d+)/g, '$1<sub>$2</sub>')
+      .replace(/\^(\S+)/g, '<sup>$1</sup>') + '</span>';
+  }
+  // 正文里的 Unicode 上下标换成真正的 sub / sup，避免中文字体把它们撑宽
+  const SUB = '₀₁₂₃₄₅₆₇₈₉', SUP = '⁰¹²³⁴⁵⁶⁷⁸⁹⁺⁻', SUPV = '0123456789+−';
+  function uni(s) {
+    return String(s)
+      .replace(/[₀-₉]+/g, (t) => '<sub>' + [...t].map((c) => SUB.indexOf(c)).join('') + '</sub>')
+      .replace(/[⁰¹²³⁴-⁹⁺⁻]+•?/g, (t) => '<sup>' + [...t].map((c) => (c === '•' ? c : SUPV[SUP.indexOf(c)])).join('') + '</sup>')
+      .replace(/•(?![^<]*<\/sup>)/g, '<span class="chem">•</span>');
+  }
+  // SVG 文字里的化学式：字母后的数字降为下标
+  function svgChem(t, s) {
+    String(s).split(/(?<=[A-Za-z])(\d+)/).forEach((part, i) => {
+      if (!part) return;
+      const ts = svg('tspan', i % 2 ? { 'font-size': '9.5', dy: 3 } : (i ? { dy: -3 } : {}), t);
+      ts.textContent = part;
+    });
+  }
+  const num = (v) => String(v);
+
+  function mount(cfg) {
+    const host = document.querySelector(cfg.el);
+    const panel = document.querySelector(cfg.panel);
+    const chips = cfg.chips ? document.querySelector(cfg.chips) : null;
+    const table = cfg.table ? document.querySelector(cfg.table) : null;
+    const zoomBtn = cfg.zoom ? document.querySelector(cfg.zoom) : null;
+    const id = ++uid;
+    const W = 1000, H = cfg.height || 480;
+    const m = { l: 58, r: 20, t: 104, b: 46 };
+    const [x0, x1] = cfg.range;
+    const peaks = cfg.peaks.slice().sort((a, b) => a.mz - b.mz);
+    const links = cfg.links || [];
+    const byMz = {};
+    peaks.forEach((p) => { byMz[p.mz] = p; });
+    const base = H - m.b;
+    const unit = (W - m.l - m.r) / (x1 - x0);
+    const X = (mz) => m.l + (mz - x0) * unit;
+    let ymax = 100, current = null;
+    let root, arcLayer, haloLayer, hov;
+
+    const Y = (I) => base - (Math.min(I, ymax) / ymax) * (base - m.t);
+    const top = (p) => (p.ghost ? Y(ymax * 0.16) : Math.min(Y(p.I), base - 1.5));
+
+    function draw() {
+      host.innerHTML = '';
+      root = svg('svg', { viewBox: `0 0 ${W} ${H}`, role: 'img', 'aria-label': cfg.title || '质谱图' }, host);
+      const defs = svg('defs', {}, root);
+      const rough = svg('filter', { id: `rough${id}`, filterUnits: 'userSpaceOnUse', x: 0, y: 0, width: W, height: H }, defs);
+      svg('feTurbulence', { type: 'fractalNoise', baseFrequency: '0.04 0.16', numOctaves: 2, seed: 4 + id, result: 'n' }, rough);
+      svg('feDisplacementMap', { in: 'SourceGraphic', in2: 'n', scale: 3, xChannelSelector: 'R', yChannelSelector: 'G' }, rough);
+      const blur = svg('filter', { id: `blur${id}`, filterUnits: 'userSpaceOnUse', x: 0, y: 0, width: W, height: H }, defs);
+      svg('feGaussianBlur', { stdDeviation: 7 }, blur);
+      ['in', 'out'].forEach((k) => {
+        const mk = svg('marker', { id: `mk-${k}${id}`, viewBox: '0 0 10 10', refX: 8, refY: 5, markerWidth: 7, markerHeight: 7, orient: 'auto-start-reverse' }, defs);
+        svg('path', { d: 'M0 1 L9 5 L0 9 Z', class: `mk-${k}` }, mk);
+      });
+
+      // 纵轴刻度
+      [0.5, 1].forEach((t) => {
+        const y = Y(ymax * t);
+        svg('line', { x1: m.l, x2: W - m.r, y1: y, y2: y, class: 'grid' }, root);
+        svg('text', { x: m.l - 10, y: y + 4, 'text-anchor': 'end' }, root).textContent = num(ymax * t);
+      });
+      svg('text', { x: m.l - 10, y: base + 4, 'text-anchor': 'end' }, root).textContent = '0';
+      const yn = svg('text', { x: 16, y: (base + m.t) / 2, class: 'axis-name', 'text-anchor': 'middle', transform: `rotate(-90 16 ${(base + m.t) / 2})` }, root);
+      yn.textContent = ymax === 100 ? '相对强度' : `相对强度 · 放大 ${100 / ymax} 倍`;
+
+      // 墨晕
+      const bleed = svg('g', { filter: `url(#blur${id})` }, root);
+      peaks.forEach((p) => {
+        if (p.ghost || p.I < 20) return;
+        svg('ellipse', { cx: X(p.mz), cy: base - 4, rx: 10 + p.I * 0.16, ry: 5 + p.I * 0.1, class: 'bleed' }, bleed);
+      });
+      haloLayer = svg('g', { filter: `url(#blur${id})` }, root);
+
+      // 横轴
+      const step = cfg.tick || 10;
+      for (let v = Math.ceil(x0 / step) * step; v <= x1; v += step) {
+        svg('line', { x1: X(v), x2: X(v), y1: base, y2: base + 7, class: 'tick' }, root);
+        svg('text', { x: X(v), y: base + 24, 'text-anchor': 'middle' }, root).textContent = v;
+      }
+      if (cfg.minor) {
+        for (let v = Math.ceil(x0 / cfg.minor) * cfg.minor; v <= x1; v += cfg.minor) {
+          svg('line', { x1: X(v), x2: X(v), y1: base, y2: base + 3.5, class: 'tick' }, root);
+        }
+      }
+      svg('text', { x: W - m.r, y: base + 42, 'text-anchor': 'end', class: 'axis-name' }, root).textContent = 'm/z';
+
+      // 笔触
+      const ink = svg('g', { filter: `url(#rough${id})` }, root);
+      svg('path', { d: `M${m.l - 6} ${base} L${W - m.r + 6} ${base}`, class: 'axis' }, ink);
+      svg('path', { d: `M${m.l} ${base} L${m.l} ${m.t - 14}`, class: 'axis', 'stroke-width': 1.6 }, ink);
+      peaks.forEach((p) => {
+        const x = X(p.mz), y = top(p);
+        if (p.ghost) {
+          p.node = svg('line', { x1: x, x2: x, y1: base, y2: y, class: 'ghost' }, root);
+          return;
+        }
+        const w = 1.3 + 3 * Math.sqrt(Math.min(p.I, ymax) / ymax);
+        p.node = svg('polygon', {
+          points: `${x - w},${base} ${x - w * 0.4},${y} ${x + w * 0.4},${y} ${x + w},${base}`,
+          class: 'stick' + (p.I > ymax ? ' clipped' : ''),
+        }, ink);
+      });
+
+      // 峰标
+      peaks.forEach((p) => {
+        if (!p.lab) { p.text = null; return; }
+        p.text = svg('text', { x: X(p.mz) + (p.dx || 0), y: top(p) - 9 + (p.dy || 0), class: 'lab' }, root);
+        p.text.textContent = p.mz;
+      });
+
+      arcLayer = svg('g', {}, root);
+      hov = svg('text', { class: 'hov', x: 0, y: 0 }, root);
+
+      // 点击区：弱峰压在强峰之上
+      const hw = Math.max(unit / 2, 4);
+      peaks.slice().sort((a, b) => b.I - a.I).forEach((p) => {
+        const r = svg('rect', { x: X(p.mz) - hw, y: m.t - 20, width: hw * 2, height: base - m.t + 20, class: 'hit' }, root);
+        r.addEventListener('click', () => select(p.mz));
+        r.addEventListener('mouseenter', () => {
+          hov.textContent = p.ghost ? `m/z ${p.mz} · 未出现` : `m/z ${p.mz} · ${num(p.I)}`;
+          const x = Math.min(Math.max(X(p.mz), m.l + 50), W - m.r - 50);
+          hov.setAttribute('x', x);
+          hov.setAttribute('y', Math.max(top(p) - 28, 14));
+        });
+        r.addEventListener('mouseleave', () => { hov.textContent = ''; });
+      });
+    }
+
+    function arcs(mz) {
+      arcLayer.innerHTML = '';
+      // 同位素关系（+1、+2）紧挨着，只在题跋里列出，不画弧
+      const rel = links.filter((l) => (l.to === mz || l.from === mz) && l.loss.indexOf('+') < 0);
+      rel.forEach((l, k) => {
+        const a = byMz[l.from], b = byMz[l.to];
+        if (!a || !b) return;
+        const kind = l.to === mz ? 'in' : 'out';
+        const xa = X(a.mz), ya = top(a) - (a.lab ? 26 : 6), xb = X(b.mz), yb = top(b) - (b.lab ? 26 : 6);
+        const cy = Math.max(Math.min(ya, yb) - 54 - k * 22, 40 + (k % 3) * 30 - (ya + yb) / 2);
+        const cx = (xa + xb) / 2;
+        svg('path', { d: `M${xa} ${ya} Q${cx} ${cy} ${xb} ${yb}`, class: `arc ${kind}`, 'marker-end': `url(#mk-${kind}${id})` }, arcLayer);
+        const ty = (ya + yb) / 4 + cy / 2 - 6;
+        const t = svg('text', { x: Math.min(Math.max(cx, m.l + 60), W - m.r - 60), y: ty, class: `arc-t ${kind}` }, arcLayer);
+        svgChem(t, l.loss);
+      });
+    }
+
+    function renderPanel(p) {
+      const origin = links.filter((l) => l.to === p.mz);
+      const fate = links.filter((l) => l.from === p.mz);
+      const intensity = p.ghost ? '谱图中未出现' : `相对强度 ${num(p.I)}${p.I === 100 ? ' · 基峰' : ''}`;
+      const row = (l, other) => `<div><button type="button" data-go="${other}">${l.from} → ${l.to}<em>${f(l.loss)}</em></button>${l.note ? `<small>${uni(l.note)}</small>` : ''}</div>`;
+      panel.innerHTML =
+        `<div class="p-mz"><b class="num">${p.mz}</b><span>m/z</span><span>${intensity}</span></div>` +
+        (p.ion ? `<div class="p-ion">${f(p.ion)}</div>` : '') +
+        (p.name ? `<div class="p-name">${uni(p.name)}</div>` : '') +
+        (p.note ? `<p>${uni(p.note)}</p>` : '') +
+        (origin.length ? `<h4>怎么来的</h4><div class="p-links">${origin.map((l) => row(l, l.from)).join('')}</div>` : '') +
+        (fate.length ? `<h4>还会碎成</h4><div class="p-links">${fate.map((l) => row(l, l.to)).join('')}</div>` : '');
+      panel.querySelectorAll('[data-go]').forEach((b) => b.addEventListener('click', () => select(+b.dataset.go)));
+    }
+
+    function select(mz) {
+      const p = byMz[mz];
+      if (!p) return;
+      current = mz;
+      const kin = new Set();
+      links.forEach((l) => { if (l.to === mz) kin.add(l.from); if (l.from === mz) kin.add(l.to); });
+      peaks.forEach((q) => {
+        q.node.classList.toggle('on', q.mz === mz);
+        if (q.text) q.text.classList.toggle('on', q.mz === mz);
+      });
+      haloLayer.innerHTML = '';
+      svg('circle', { cx: X(mz), cy: top(p), r: 20, class: 'halo' }, haloLayer);
+      arcs(mz);
+      renderPanel(p);
+      if (chips) chips.querySelectorAll('button').forEach((b) => b.setAttribute('aria-pressed', String(+b.dataset.mz === mz)));
+    }
+
+    if (chips) {
+      peaks.filter((p) => p.lab || p.chip).forEach((p) => {
+        const b = document.createElement('button');
+        b.type = 'button';
+        b.dataset.mz = p.mz;
+        b.textContent = p.mz;
+        b.addEventListener('click', () => select(p.mz));
+        chips.appendChild(b);
+      });
+    }
+    if (table) {
+      table.innerHTML = '<table><thead><tr><th>m/z</th><th class="r">相对强度</th><th>离子</th></tr></thead><tbody>' +
+        peaks.filter((p) => !p.ghost).map((p) => `<tr><td><button type="button" data-mz="${p.mz}">${p.mz}</button></td><td class="r">${num(p.I)}</td><td class="ion">${p.ion ? f(p.ion) : ''}</td></tr>`).join('') +
+        '</tbody></table>';
+      table.querySelectorAll('button').forEach((b) => b.addEventListener('click', () => {
+        select(+b.dataset.mz);
+        host.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }));
+    }
+    if (zoomBtn) {
+      zoomBtn.addEventListener('click', () => {
+        ymax = ymax === 100 ? (cfg.zoomTo || 10) : 100;
+        zoomBtn.setAttribute('aria-pressed', String(ymax !== 100));
+        draw();
+        select(current);
+      });
+    }
+
+    draw();
+    select(cfg.start != null ? cfg.start : peaks[0].mz);
+    registry[cfg.el] = { select };
+    return registry[cfg.el];
+  }
+
+  // 由 M+1 / M 估碳数
+  function carbonCalc(sel, init) {
+    const box = document.querySelector(sel);
+    box.classList.add('calc');
+    box.innerHTML =
+      `<label>M 峰强度<input type="number" step="any" min="0" value="${init.m}"></label>` +
+      `<label>M+1 峰强度<input type="number" step="any" min="0" value="${init.m1}"></label>` +
+      '<output></output>';
+    const [a, b] = box.querySelectorAll('input');
+    const out = box.querySelector('output');
+    const run = () => {
+      const M = +a.value, M1 = +b.value;
+      if (!(M > 0) || !(M1 >= 0)) { out.textContent = '填两个正数'; return; }
+      const n = (M1 / M) / 0.011;
+      out.innerHTML = `碳数 ≈ ${n.toFixed(2)} → 最多 <b>${Math.round(n)}</b> 个碳`;
+    };
+    a.addEventListener('input', run);
+    b.addEventListener('input', run);
+    run();
+  }
+
+  function decorate() {
+    const head = document.querySelector('header.top');
+    if (head) {
+      const s = svg('svg', { viewBox: '0 0 600 220', class: 'hills', 'aria-hidden': 'true' });
+      const d = svg('defs', {}, s);
+      const b1 = svg('filter', { id: 'hb1' }, d); svg('feGaussianBlur', { stdDeviation: 4 }, b1);
+      const b2 = svg('filter', { id: 'hb2' }, d); svg('feGaussianBlur', { stdDeviation: 1.6 }, b2);
+      svg('circle', { cx: 468, cy: 44, r: 15, class: 'sun' }, s);
+      svg('path', { d: 'M0 220 L0 160 Q60 126 110 140 T200 92 Q240 60 282 104 T380 84 Q430 52 472 98 T600 124 L600 220Z', class: 'far', filter: 'url(#hb1)' }, s);
+      svg('path', { d: 'M0 220 L0 196 Q80 158 150 180 T300 156 Q360 128 420 170 T600 176 L600 220Z', class: 'near', filter: 'url(#hb2)' }, s);
+      head.insertBefore(s, head.firstChild);
+    }
+    document.querySelectorAll('[data-f]').forEach((e) => { e.innerHTML = f(e.textContent); });
+    document.querySelectorAll('[data-sel]').forEach((e) => {
+      e.addEventListener('click', () => {
+        const inst = registry[e.dataset.spec || '#spec'];
+        if (!inst) return;
+        inst.select(+e.dataset.sel);
+        document.querySelector(e.dataset.spec || '#spec').scrollIntoView({ behavior: 'smooth', block: 'center' });
+      });
+    });
+  }
+
+  window.InkSpectrum = { mount, carbonCalc, decorate, f };
+})();
+</script>
 <script>
 InkSpectrum.carbonCalc('#calc', { m: 60, m1: 8.5 });
 InkSpectrum.mount({
