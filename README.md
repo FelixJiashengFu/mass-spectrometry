@@ -2,7 +2,7 @@
 
 质谱可视化专题库。每个专题讲一张谱：一幅可以点的水墨风格棒图，旁边是选中峰的离子归属和来历，下面是推断步骤。页面按电脑宽屏排版（最宽 1480px，窄屏自动退成单栏）。
 
-结构与 [statistical-mechanics](https://github.com/Uugyfgyb/statistical-mechanics)、[pde-visualization](https://github.com/Uugyfgyb/pde-visualization) 相同：根目录的 [专题目录](index.html) 负责分类和导航，每个专题放在 `topics/<slug>/` 下。
+结构与 [statistical-mechanics](https://github.com/FelixJiashengFu/statistical-mechanics)、[pde-visualization](https://github.com/FelixJiashengFu/pde-visualization) 相同：根目录的 [专题目录](index.html) 负责分类和导航，每个专题放在 `topics/<slug>/` 下。
 
 ## 专题
 
